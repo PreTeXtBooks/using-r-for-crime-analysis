@@ -1,12 +1,340 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <chapter xml:id="ch-02" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Getting Started with R</title>
+  <title>Introduction to Data Formations and Graphics</title>
 
-  <introduction>
+  <section xml:id="sec-gss-2012">
+    <title>The 2012 General Social Survey</title>
+
     <p>
-      This chapter introduces the R programming language and RStudio environment for statistical computing.
+      In this chapter, we will practice transforming survey data and making graphs using the transformed data. The survey data we will use is from the 2012 General Social Survey (GSS) conducted by the National Opinion Research Center (NORC). The GSS collects information from a nationally representative sample of the non-institutionalized US population (ages 18 years and older). Specifically, the NORC employs a stratified, multistage area probability sampling method to select households across the USA. The GSS monitors changes and constants in the American population's attitudes, behaviors, and attributes. The collected data covers various topics, including demographics, social attitudes, religion, politics, and the like. The dataset's variables we will focus on are related to perceptions of the police's use of force. Two of the survey questions asked in the 2012 GSS were <q>Are there any situations you can imagine in which you would approve of a policeman striking an adult male citizen?</q> and <q>Would you approve of a police officer striking a citizen who had said vulgar and obscene things to the policeman?</q> We will focus on these variables to see how people feel about police use of force.
     </p>
-  </introduction>
+  </section>
+
+  <section xml:id="sec-importing-haven">
+    <title>Importing the Data Using the Haven Package</title>
+
+    <p>
+      The <c>haven</c> package is a very useful tool within the R environment because it allows users to import data that has different file extensions created in popular statistical software packages such as SAS, SPSS, and Stata. The <c>haven</c> package enables users to import and export datasets effortlessly by bridging the gap between different data formats. As I mentioned in the first chapter, installing and loading the <c>haven</c> package is the first step.
+    </p>
+
+    <program language="r">
+      <input>
+install.packages('haven')
+
+library(haven)
+      </input>
+    </program>
+
+    <p>
+      I will assign the read data to a new data frame labeled <c>GSS.2012</c>. Please note that we could read this SPSS file because we used the <c>haven</c> package, which allows users to import data from different software programs.
+    </p>
+
+    <program language="r">
+      <input>
+GSS.2012 &lt;- read_sav("GSS.2012.sav")
+      </input>
+    </program>
+  </section>
+
+  <section xml:id="sec-view-function">
+    <title>View Function</title>
+
+    <p>
+      To check what the imported data looks like, use the <c>view()</c> function. The <c>view()</c> function opens a data viewer window in R, allowing you to interactively explore the contents of a data frame.
+    </p>
+
+    <program language="r">
+      <input>
+view(GSS.2012)
+      </input>
+    </program>
+
+    <p>
+      The syntax above displays the contents of the <c>GSS.2012</c> data frame. If you check the data, you may recognize that each row represents an individual who participated in the survey, and columns represent different variables. For instance, the column labeled as <c>RACE</c> refers to a respondent's race. You will see five variables included in this dataset: <c>RACE</c>, <c>SEX</c>, <c>POLHITOK</c>, <c>POLABUSE</c>, and <c>AGE</c>. Although many more variables were included in the 2012 GSS, I retained only our variables of interest here to simplify the data management process.
+    </p>
+
+    <p>
+      You will see a number below each variable. For instance, respondent's race (<c>RACE</c>) was coded as 1 = White, 2 = Black, and 3 = Other. <c>SEX</c> represents a respondent's sex (1 = Male and 2 = Female). <c>POLHITOK</c> represents a respondent's response to the following question: <q>Are there any situations you can imagine in which you would approve of a policeman striking an adult male citizen?</q> The response options for this item were 1 (yes) and 2 (no). <c>POLABUSE</c> represents a respondent's response to the following question: <q>Would you approve of a police officer striking a citizen who had said vulgar and obscene things to the policeman?</q> The response options for this item were also 1 (yes) and 2 (no). Finally, <c>AGE</c> represents a respondent's age.
+    </p>
+  </section>
+
+  <section xml:id="sec-summary-function">
+    <title>Summary Function</title>
+
+    <p>
+      There may be too much information to review if you try to read the entire content displayed from the view function. So, reviewing summarized information from our data frame may be better. The <c>summary()</c> function gives a quick rundown of what's inside a data frame, showing both the layout and key statistics for each variable.
+    </p>
+
+    <program language="r">
+      <input>
+summary(object = GSS.2012)
+      </input>
+    </program>
+
+    <p>
+      The results show the minimum, 1st quartile, median, mean, 3rd quartile, and maximum values. What about NA's? NA's indicate the number of missing values in each variable. For example, the summary statistics provided for <c>AGE</c> are as follows:
+    </p>
+
+    <p>
+      <ul>
+        <li><p>Minimum (Min.): 18.00</p></li>
+        <li><p>1st Quartile (1st Qu.): 33.00</p></li>
+        <li><p>Median: 47.00</p></li>
+        <li><p>Mean: 48.19</p></li>
+        <li><p>3rd Quartile (3rd Qu.): 61.00</p></li>
+        <li><p>Maximum (Max.): 89.00</p></li>
+        <li><p>Number of missing values (NA's): 5</p></li>
+      </ul>
+    </p>
+
+    <p>
+      These statistics give insights into the distribution of ages in the dataset. For instance, the youngest person in the dataset is 18 years old. A quarter of the people are 33 or younger. The median age is 47, meaning half are younger, and half are older than that. The average age is a bit higher than the median age at 48.19 years, which suggests there might be some older individuals raising the average. Three-quarters of the people are 61 or younger, and the oldest person is 89. Five missing age values that need to be handled based on what kind of analysis or modeling you're doing.
+    </p>
+  </section>
+
+  <section xml:id="sec-categorical-numerical">
+    <title>Categorical vs Numerical Variables</title>
+
+    <p>
+      What are categorical and numerical variables? In statistical analysis, we use these two types of variables to handle different kinds of data. Categorical variables deal with qualitative data, meaning they sort observations into specific groups or categories. Think of things like gender, race, marital status, education level, and car type. On the other hand, numerical variables handle quantitative data. These are numbers that show amounts or quantities, like age, height, income, or temperature. Examples of numerical variables include age, height, weight, income, and temperature.
+    </p>
+
+    <p>
+      Our summary statistics from the <c>summary</c> function suggest that some issues arise with the way our variables are coded. For instance, the <c>RACE</c> variable has been given summary statistics like <q>Min.</q>, <q>1st Qu.</q>, <q>Median</q>, <q>Mean</q>, <q>3rd Qu.</q>, <q>Max.</q>, and <q>NA's</q>. This is incorrect because <c>RACE</c> is being treated as a numerical variable instead of a categorical one.
+    </p>
+
+    <p>
+      There is no average for the categorical variable of race. Calculating the mean of race categories (e.g., <q>WHITE</q>, <q>BLACK</q>, <q>OTHER</q>) would imply a numeric relationship between these categories. However, race categories are qualitative and do not have inherent numeric values. Treating them as numeric would lead to misinterpretation and potentially incorrect conclusions. On the other hand, calculating the average age, which is 48.19 years, makes perfect sense. However, it's illogical to apply the mean to categorical variables like race. Race categories (e.g., White, Black, Asian) don't have a numerical order or value that can be averaged as numerical values do.
+    </p>
+
+    <p>
+      We need to recode <c>RACE</c> and <c>SEX</c>, so that they are classified as categorical variables instead of numerical variables. Even <c>POLHITOK</c> and <c>POLABUSE</c> are categorical because the responses <q>yes</q> and <q>no</q> represent distinct categories rather than numerical values with inherent order or magnitude. While the coded values 1 and 2 for <c>POLHITOK</c> and <c>POLABUSE</c> may appear to be numerical, they are used here to represent categories rather than quantities. So, these variables also need to be transformed properly.
+    </p>
+  </section>
+
+  <section xml:id="sec-dplyr-package">
+    <title>Dplyr Package</title>
+
+    <p>
+      We will use the <c>dplyr</c> package to recode some of our variables. The <c>dplyr</c> package provides a set of grammars of data manipulation, offering a consistent set of verbs (functions) that help us solve common data manipulation challenges. We do not need to install this R package. Do you remember that we installed the <c>tidyverse</c> package in the previous chapter? The <c>tidyverse</c> package is a collection of several packages, including <c>dplyr</c> and <c>ggplot2</c>. So <c>dplyr</c> was already installed when we installed the <c>tidyverse</c> package.
+    </p>
+
+    <p>
+      One of the <c>dplyr</c> verbs is <c>mutate()</c>, and this function can be used to add new variables (columns) that are functions of existing variables. First, we will recode <c>RACE</c> to a factor, ensuring that it is treated as a categorical variable. However, we want to create a copy of the dataset in case we make mistakes and need to restore the original file. Again, you remember that we can create a new dataset using the left-arrow operator. This new dataset will be named <c>GSS.2012.cleaned</c>.
+    </p>
+
+    <program language="r">
+      <input>
+GSS.2012.cleaned &lt;- GSS.2012 %&gt;%
+  mutate(RACE = as.factor(x = RACE))
+      </input>
+    </program>
+
+    <p>
+      The first line, <c>GSS.2012.cleaned &lt;- GSS.2012 %&gt;%</c>, creates a new dataset called <c>GSS.2012.cleaned</c>. This new dataset will include all our data manipulations after the <c>%&gt;%</c> operator. The <c>%&gt;%</c> operator, pronounced <q>pipe</q>, lets us string multiple functions together in a sequence. This makes the code easier to read and understand, especially when handling complex data tasks. The second line, <c>mutate(RACE = as.factor(x = RACE))</c>, uses the <c>mutate()</c> function from <c>dplyr</c> to modify the <c>RACE</c> variable in the <c>GSS.2012</c> dataset. It changes the <c>RACE</c> variable into a factor using the <c>as.factor()</c> function, ensuring it is treated as a categorical variable. The <c>x = RACE</c> argument specifies the variable to be transformed. The first <c>RACE</c> in the parenthesis indicates the name of the variable in the new dataset. You can keep it as it is or create a new variable with a new name. This line of code ensures that the <c>RACE</c> variable is treated as a categorical factor variable in the dataset.
+    </p>
+
+    <p>
+      We can examine whether our data transformation succeeded using the <c>summary</c> function we learned earlier.
+    </p>
+
+    <program language="r">
+      <input>
+summary(GSS.2012.cleaned$RACE)
+      </input>
+    </program>
+
+    <p>
+      We can specify the variable we want to see in the dataset using the <c>$</c> operator. You will notice that no information is presented regarding minimum, 1st quartile, median, mean, 3rd quartile, and maximum values. Instead, you can see categories 1, 2, and 3:
+    </p>
+
+    <p>
+      <ul>
+        <li><p>Category 1: This category has a frequency count of 1477.</p></li>
+        <li><p>Category 2: This category has a frequency count of 301.</p></li>
+        <li><p>Category 3: This category has a frequency count of 196.</p></li>
+      </ul>
+    </p>
+
+    <p>
+      However, because we do not know which racial category is associated with each category, we will need to recode the values in the <c>RACE</c> variable using the following syntax:
+    </p>
+
+    <program language="r">
+      <input>
+GSS.2012.cleaned &lt;- GSS.2012.cleaned %&gt;%
+  mutate(RACE = recode(.x = RACE, "1" = "WHITE")) %&gt;%
+  mutate(RACE = recode(.x = RACE, "2" = "BLACK")) %&gt;%
+  mutate(RACE = recode(.x = RACE, "3" = "OTHER"))
+      </input>
+    </program>
+
+    <p>
+      <c>mutate(RACE = recode(.x = RACE, "1" = "WHITE"))</c> recoded the values in the <c>RACE</c> variable by replacing a value of <c>"1"</c> with <c>"WHITE"</c>. Similarly, <c>mutate(RACE = recode(.x = RACE, "2" = "BLACK"))</c> recodes the <c>RACE</c> variable again. This time, it replaces any value of <c>"2"</c> with <c>"BLACK"</c>. Finally, <c>mutate(RACE = recode(.x = RACE, "3" = "OTHER"))</c> replaced any value of <c>"3"</c> with <c>"OTHER"</c>.
+    </p>
+
+    <p>
+      We can review our results using the <c>summary</c> function.
+    </p>
+
+    <program language="r">
+      <input>
+summary(GSS.2012.cleaned$RACE)
+      </input>
+    </program>
+
+    <p>
+      The output indicated that there were 1477 whites, 301 blacks, and 196 others.
+    </p>
+
+    <p>
+      Even though we broke down this data transformation process into several steps (converting the <c>RACE</c> variable to a factor and then recoding its values to more descriptive labels), you do not need to create multiple syntaxes because the pipe operator in R can simplify and streamline our codes. For instance, the following syntax can perform a series of data manipulations at the same time.
+    </p>
+
+    <program language="r">
+      <input>
+GSS.2012.cleaned &lt;- GSS.2012 %&gt;%
+  mutate(RACE = as.factor(x = RACE)) %&gt;%
+  mutate(RACE = recode(.x = RACE, "1" = "WHITE")) %&gt;%
+  mutate(RACE = recode(.x = RACE, "2" = "BLACK")) %&gt;%
+  mutate(RACE = recode(.x = RACE, "3" = "OTHER"))
+
+summary(GSS.2012.cleaned$RACE)
+      </input>
+    </program>
+
+    <p>
+      In sum, we can chain multiple actions together, making our code more concise and readable.
+    </p>
+  </section>
+
+  <section xml:id="sec-ggplot2-package">
+    <title>Ggplot2 Package</title>
+
+    <p>
+      You may wonder if we can visualize the information regarding the <c>RACE</c> variable in the 2012 GSS data in a graph. One of the most popular tools used to create such data visualizations is the <c>ggplot2</c> package. As with the <c>dplyr</c>, the <c>ggplot2</c> package is a part of <c>tidyverse</c>. Therefore, you do not need to install or load <c>ggplot2</c> as long as the <c>tidyverse</c> package is installed and loaded.
+    </p>
+
+    <p>
+      The following is a reusable template for making graphs with <c>ggplot2</c>.
+    </p>
+
+    <program language="r">
+      <input>
+ggplot(data = &lt;DATA&gt;) +
+  &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGS&gt;))
+      </input>
+    </program>
+
+    <p>
+      To create a graph, substitute the section within the angle brackets in the provided code with either a dataset, a geom function, or a set of mappings.
+    </p>
+
+    <p>
+      For instance, let's create a bar chart to see how the different racial categories are distributed. Bar charts are handy for showing how often each category appears in a variable. Here's the code using <c>ggplot2</c> to make the chart:
+    </p>
+
+    <program language="r">
+      <input>
+ggplot(GSS.2012.cleaned, aes(x = RACE)) +
+  geom_bar()
+      </input>
+    </program>
+
+    <p>
+      This code initializes a ggplot object with our dataset <c>GSS.2012.cleaned</c> and tells ggplot to use the <c>RACE</c> variable for the x-axis. Then, it adds bars to the plot with <c>geom_bar()</c>. By default, this function counts how many times each category appears in the <c>RACE</c> variable and makes a bar for each one. Now, let's make the chart a bit more informative by adding labels:
+    </p>
+
+    <program language="r">
+      <input>
+ggplot(GSS.2012.cleaned, aes(x = RACE)) +
+  geom_bar() +
+  labs(x = "Race", y = "Frequency", title = "Distribution of Race")
+      </input>
+    </program>
+
+    <p>
+      Here, <c>labs()</c> sets the labels for the x-axis (<q>Race</q>), y-axis (<q>Frequency</q>), and the plot title (<q>Distribution of Race</q>), which gives more context to the chart. With the <c>+</c> operator, we can add more aesthetic options to the bar graph. You can achieve the same result using the pipe operator:
+    </p>
+
+    <program language="r">
+      <input>
+GSS.2012.cleaned %&gt;%
+  ggplot(aes(x = RACE)) +
+  geom_bar() +
+  labs(x = "Race", y = "Frequency", title = "Distribution of Race")
+      </input>
+    </program>
+
+    <p>
+      Using the pipe operator can give you additional flexibility when more complex tasks need to be added. For example, we can create a new store place using the pipe operator and ggplot.
+    </p>
+
+    <program language="r">
+      <input>
+race.bar &lt;- GSS.2012.cleaned %&gt;%
+  ggplot(aes(x = RACE, fill = RACE)) +
+  geom_bar()
+
+race.bar
+      </input>
+    </program>
+
+    <p>
+      <c>race.bar</c> stores the resulting bar chart plot object, allowing you to further customize or display the plot as needed.
+    </p>
+
+    <p>
+      Now, I want to add the colors to the bars in the chart. The bars will be filled with <q>beige</q>, <q>black</q>, and <q>gray</q> colors, respectively, corresponding to the different levels of the <c>RACE</c> variable.
+    </p>
+
+    <program language="r">
+      <input>
+race.bar &lt;- GSS.2012.cleaned %&gt;%
+  ggplot(aes(x = RACE, fill = RACE)) +
+  geom_bar() +
+  scale_fill_manual(values = c("beige", "black", "gray"),
+                    guide = FALSE) +
+  labs(x = "Race", y = "Frequency", title = "Distribution of Race")
+
+race.bar
+      </input>
+    </program>
+
+    <p>
+      <c>scale_fill_manual(values = c("beige", "black", "gray"))</c> sets the fill colors of the bars manually. The <c>values</c> argument specifies a vector of colors to use for filling the bars.
+    </p>
+
+    <p>
+      <c>guide = FALSE</c> specifies whether to include a legend or guide for the fill scale. Setting it to <c>FALSE</c> removes the legend, so the colors will be applied directly to the bars without a corresponding legend in the plot.
+    </p>
+
+    <p>
+      Finally, you may want to remove the gray background that makes the graph look less professional. You can remove background grids, axis lines, and other non-essential elements, resulting in a clean and simple appearance in ggplot.
+    </p>
+
+    <program language="r">
+      <input>
+race.bar &lt;- GSS.2012.cleaned %&gt;%
+  ggplot(aes(x = RACE, fill = RACE)) +
+  geom_bar() +
+  scale_fill_manual(values = c("beige", "black", "grey"),
+                    guide = FALSE) +
+  labs(x = "Race", y = "Frequency", title = "Distribution of Race") +
+  theme_minimal()
+
+race.bar
+      </input>
+    </program>
+
+    <p>
+      <c>theme_minimal()</c> applies the minimalistic theme to the plot created by <c>ggplot2</c>, resulting in a plot with a clean and uncluttered appearance.
+    </p>
+
+    <p>
+      In this chapter, I introduced several useful data transformation and visualization packages. Additionally, we reviewed some basic codes and functions that can help you recode the variables and visualize data. In the next chapter, we will learn how to produce descriptive statistics.
+    </p>
+  </section>
 
 </chapter>
