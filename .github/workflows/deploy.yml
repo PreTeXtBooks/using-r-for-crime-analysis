@@ -1,0 +1,74 @@
+name: Build and Deploy
+on:
+  # Runs on pull requests to verify the build before merging
+  pull_request:
+    branches: ["*"]
+
+  # Runs on pushes to main (after a PR is merged) to build and deploy
+  push:
+    branches: ["main"]
+
+  # Runs on demand
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: oscarlevin/pretext-full
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: install deps
+        run: pip install -r requirements.txt --break-system-packages
+
+      - name: build deploy targets
+        run: pretext build --deploys
+
+      - name: stage deployment
+        run: pretext deploy --stage-only
+
+      - name: Bundle output/stage as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy
+          path: output/stage
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: deploy
+          path: output/stage
+
+      - name: setup git config
+        run: |
+          git config --global --add safe.directory $(pwd)
+          git config user.name "${{ github.actor }} via GitHub Actions"
+          git config user.email "${{ github.actor }}@github_actions.no_reply"
+
+      - name: push gh-pages branch
+        run: |
+          cd output/stage
+          git init
+          git add .
+          git commit -m "Deploy to gh-pages"
+          git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

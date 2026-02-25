@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="ch-05" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Data Visualization</title>
+
+  <introduction>
+    <p>
+      This chapter covers techniques for visualizing crime data using R's graphics capabilities.
+    </p>
+  </introduction>
+
+</chapter>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<pretext xml:lang="en-US" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <!-- we first include a file which contains the docinfo element: -->
+  <xi:include href="./docinfo.ptx" />
+
+  <book xml:id="basic-statistics-using-r-crime-analysis">
+    <title>Basic Statistics Using R for Crime Analysis</title>
+
+    <!-- Include frontmatter -->
+    <xi:include href="./frontmatter.ptx" />
+
+    <!-- Include chapters -->
+    <xi:include href="./ch-01.ptx" />
+    <xi:include href="./ch-02.ptx" />
+    <xi:include href="./ch-03.ptx" />
+    <xi:include href="./ch-04.ptx" />
+    <xi:include href="./ch-05.ptx" />
+    <xi:include href="./ch-06.ptx" />
+    <xi:include href="./ch-07.ptx" />
+    <xi:include href="./ch-08.ptx" />
+    <xi:include href="./ch-09.ptx" />
+    <xi:include href="./ch-10.ptx" />
+
+    <!-- Include backmatter -->
+    <xi:include href="./backmatter.ptx" />
+
+  </book>
+</pretext>

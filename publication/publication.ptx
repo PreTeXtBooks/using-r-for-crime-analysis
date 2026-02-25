@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Publication file for Basic Statistics Using R for Crime Analysis -->
+<!-- See https://pretextbook.org/doc/guide/html/publisher-file-reference.html -->
+
+<publication>
+  <common>
+    <chunking level="2" />
+    <tableofcontents level="2" />
+  </common>
+
+  <source>
+    <directories external="../assets" generated="../generated-assets" />
+  </source>
+
+  <html>
+    <baseurl href="https://paadopt.org/bookshelf/basic-statistics-using-r-for-crime-analysis/" />
+  </html>
+</publication>

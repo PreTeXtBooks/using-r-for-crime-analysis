@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="ch-03" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Data Collection and Management</title>
+
+  <introduction>
+    <p>
+      This chapter covers methods for collecting, importing, and managing crime data in R.
+    </p>
+  </introduction>
+
+</chapter>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="ch-06" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Probability and Distributions</title>
+
+  <introduction>
+    <p>
+      This chapter introduces probability theory and statistical distributions relevant to crime analysis.
+    </p>
+  </introduction>
+
+</chapter>
