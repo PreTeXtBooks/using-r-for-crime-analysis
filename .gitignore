@@ -1,3 +1,5 @@
 output/
 .cache/
 generated-assets/
+logs/
+.error_schema.log
