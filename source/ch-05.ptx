@@ -3,7 +3,7 @@
 <chapter xml:id="ch-05" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Reliability of a Scale</title>
 
-  <subsection xml:id="sec-reliability-validity">
+  <section xml:id="sec-reliability-validity">
     <title>Reliability vs Validity</title>
 
     <p>
@@ -46,8 +46,9 @@
       Despite its benefits, the NCVS has limitations. One major challenge is that respondents may not always be forthcoming about their victimization experiences. For example, individuals may feel uncomfortable discussing sexual offenses openly. Additionally, the accuracy of respondents' memories may be affected since they are asked about victimization events every six months, leading to potential confusion about timelines. Furthermore, the survey design primarily focuses on street crimes, with limited coverage of other offenses. This narrow focus may result in the underrepresentation of certain types of crimes in the data, such as Part 2 offenses. Nonetheless, the NCVS provides valuable insights into unreported crime.
     </p>
   </subsection>
+</section>
 
-  <subsection xml:id="sec-testretest-internal-consistency">
+  <section xml:id="sec-testretest-internal-consistency">
     <title>Test-Retest and Internal Consistency Methods</title>
 
     <p>
@@ -162,8 +163,9 @@ print(alpha_result)
       While the reliability of the capable guardianship scale (Cronbach <m>\alpha = .67</m>) was slightly lower than the widely accepted standard (<m>\alpha = .70</m>, DeVellis, 2012), this alpha is sensitive to the small number of items in the scale. Briggs and Cheek (1986) suggested that as the mean inter-item correlation (.22) for the items is above .2, this scale can be regarded as reliable, indicating that the seven items are reliable sources to capture the levels of guardianship.
     </p>
   </subsection>
+</section>
 
-  <subsection xml:id="sec-ch05-conclusion">
+  <section xml:id="sec-ch05-conclusion">
     <title>Conclusion</title>
 
     <p>
@@ -190,5 +192,7 @@ print(alpha_result)
       Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em> (4th ed.). Sage.
     </p>
   </subsection>
+
+</section>
 
 </chapter>
