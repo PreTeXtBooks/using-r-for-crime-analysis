@@ -89,16 +89,15 @@ media_and_police_cleaned &lt;- media_and_police_cleaned %&gt;%
 summary(media_and_police_cleaned)
       </input>
     </program>
-  </section>
 
-  <section xml:id="sec-nhst-anova">
+  <subsection xml:id="sec-nhst-anova">
     <title>NHST Steps for One-Way ANOVA</title>
 
     <p>
       We may want to determine whether there is a significant difference in the mean scores for confidence in the police across groups who watched different videos. As mentioned in previous chapters, NHST intends to draw conclusions about the population based on the data from our sample.
     </p>
 
-    <subsection xml:id="subsec-anova-step1">
+    <subsubsection xml:id="subsec-anova-step1">
       <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
 
       <p>
@@ -107,9 +106,9 @@ summary(media_and_police_cleaned)
           <li><p><m>H_A</m>: The mean scores for confidence in the police are not equal across groups who watched different videos.</p></li>
         </ul>
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-anova-step2">
+    <subsubsection xml:id="subsec-anova-step2">
       <title>Step 2: Calculate the Test Statistic</title>
 
       <program language="r">
@@ -124,31 +123,32 @@ police.by.con
       <p>
         The F statistic is 0.49287.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-anova-step3">
+    <subsubsection xml:id="subsec-anova-step3">
       <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming no Relationship Exists</title>
 
       <p>
         The p-value obtained is 0.6114, which is considerably larger than the conventional significance level of 0.05. When the p-value is this large, it suggests that the observed result is not statistically significant, indicating no evidence to reject the null hypothesis. It is common to observe such small F-statistics when the null hypothesis is true.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-anova-steps4-5">
+    <subsubsection xml:id="subsec-anova-steps4-5">
       <title>Steps 4 &amp; 5: If the P-Value is Very Small, Typically Less Than 5%, Reject the Null Hypothesis, but if the P-Value is Not Small, Typically 5% or Greater, Retain the Null Hypothesis</title>
 
       <p>
         With a p-value <m>&gt; 0.05</m>, the ANOVA indicates that these groups likely came from a population with similar mean scores for confidence in the police by different experimental conditions.
       </p>
-    </subsection>
-  </section>
+    </subsubsection>
+  </subsection>
 
-  <section xml:id="sec-reporting-anova">
+  <subsection xml:id="sec-reporting-anova">
     <title>Reporting the Results From One-Way ANOVA</title>
 
     <p>
       A one-way ANOVA was conducted to explore the impact of media exposure on confidence in the police. Participants were randomly assigned to watch one of the three conditions (Group 1: Positive Police Video, Group 2: Negative Police Video, and Group 3: Mixed Police Video). There was no statistically significant difference at the <m>p &lt; .05</m> level in confidence in the police <m>F(2, 296) = 0.49</m>, <m>p = 0.61</m>.
     </p>
+  </subsection>
   </section>
 
   <section xml:id="sec-post-hoc">
@@ -185,9 +185,8 @@ tukey.police.by.con
     <p>
       In this chapter, we covered ANOVA, which compares the mean scores of more than two groups. In the next chapter, we will learn about correlation.
     </p>
-  </section>
 
-  <section xml:id="sec-ch08-references">
+  <subsection xml:id="sec-ch08-references">
     <title>References</title>
 
     <p>
@@ -213,6 +212,8 @@ tukey.police.by.con
     <p>
       Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em> (4th ed.). Sage.
     </p>
+  </subsection>
   </section>
+
 
 </chapter>
