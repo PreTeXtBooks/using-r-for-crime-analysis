@@ -29,14 +29,14 @@
     <p>
       Linear regression analysis is commonly used to examine the relationship between one continuous dependent variable and a set of independent variables. Simple linear regression involves examining the linear relationship between the dependent variable and a single independent variable. Conversely, multiple linear regression entails analyzing the impact of multiple independent variables on a dependent variable in the linear relationships.
     </p>
-  </section>
 
-  <section xml:id="sec-ols-model">
+  <subsection xml:id="sec-ols-model">
     <title>Ordinary Least Squares (OLS) Model</title>
 
     <p>
       It is important to note that various types of linear regression models exist, but we will focus on the Ordinary Least Squares (OLS) regression model in this chapter because it is the most widely used. OLS is a statistical estimation technique for determining a regression equation that best represents the relationship between the dependent and independent variables. This method calculates the slope and intercept by minimizing the sum of squared differences between observed and predicted values. Other statistical estimation methods, such as maximum likelihood, are available for establishing a regression model.
     </p>
+  </subsection>
   </section>
 
   <section xml:id="sec-inmate-survey">
@@ -160,16 +160,15 @@ summary(object = rl_by_lsc)
     <p>
       This means that if low self-control increases by one unit in an inmate, risky lifestyles would typically change by 0.09227.
     </p>
-  </section>
 
-  <section xml:id="sec-nhst-simple-regression">
+  <subsection xml:id="sec-nhst-simple-regression">
     <title>NHST Steps for Simple Linear Regression Model</title>
 
     <p>
       We may want to make inferences about the population (all inmates within the 20 prisons in South Korea where the current sample was drawn from) using the data we have. That is when we conduct Null Hypothesis Significance Testing (NHST), which was covered previously. Specifically, we may want to assess the statistical significance of the slope in simple linear regression. If the slope (i.e., the unstandardized coefficient of low self-control or the rate of change in risky lifestyle for a one-unit change in low self-control) is not equal to zero, it implies that there is a statistically significant relationship between low self-control and risky lifestyles.
     </p>
 
-    <subsection xml:id="subsec-slr-step1">
+    <subsubsection xml:id="subsec-slr-step1">
       <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
 
       <p>
@@ -178,9 +177,9 @@ summary(object = rl_by_lsc)
           <li><p><m>H_A</m>: The unstandardized coefficient of low self-control is not equal to zero.</p></li>
         </ul>
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-slr-step2">
+    <subsubsection xml:id="subsec-slr-step2">
       <title>Step 2: Calculate the Test Statistic</title>
 
       <p>
@@ -197,31 +196,32 @@ summary(object = rl_by_lsc)
       <p>
         The results indicate that the unstandardized coefficient of low self-control is 0.09, and the t-value is 6.023.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-slr-step3">
+    <subsubsection xml:id="subsec-slr-step3">
       <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming no Relationship Exists</title>
 
       <p>
         The p-value for the unstandardized coefficient of low self-control (0.09) is <m>&lt; 2.45 \times 10^{-9}</m>, which is much smaller than 0.05.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-slr-steps4-5">
+    <subsubsection xml:id="subsec-slr-steps4-5">
       <title>Steps 4 &amp; 5: If the P-Value is Very Small, Typically Less Than 5%, Reject the Null Hypothesis, but if the P-Value is Not Small, Typically 5% or Greater, Retain the Null Hypothesis</title>
 
       <p>
         The p-value of <m>&lt; 0.05</m> in our simple linear regression model suggests that there is a very slim probability that the t-statistic for the unstandardized coefficient of low self-control would be as large as observed if the null hypothesis were true. In short, the null hypothesis was rejected in favor of our alternative hypothesis that the unstandardized coefficient of low self-control is not equal to zero.
       </p>
-    </subsection>
-  </section>
+    </subsubsection>
+  </subsection>
 
-  <section xml:id="sec-reporting-slr">
+  <subsection xml:id="sec-reporting-slr">
     <title>Reporting the Results From the Simple Linear Regression Model</title>
 
     <p>
       We found that low self-control reported by inmates is a statistically significant predictor of risky lifestyles (<m>b = 0.09</m>; <m>p &lt; .05</m>) within our sample. Specifically, for every one-unit increase in low self-control among inmates, the predicted increase in risky lifestyle is 0.09 units.
     </p>
+  </subsection>
   </section>
 
   <section xml:id="sec-model-significance-slr">
@@ -266,7 +266,12 @@ summary(object = rl_by_lsc)
       </p>
     </subsection>
 
+    <subsection xml:id="subsec-model-reporting-sig-2">
+      <title>Reporting the Model Significance for the Simple
+Linear Regression Model</title>
+
     <p>
+      You can add the results regarding the model significance when reporting the results from simple linear regression.
       Our model significantly outperformed the baseline model (which used the mean of risky lifestyles) in explaining risky lifestyles (<m>F(1, 941) = 36.28</m>; <m>p &lt; .05</m>).
     </p>
   </section>
@@ -288,9 +293,8 @@ summary(object = rl_by_lsc_age)
     <p>
       As you can see, even after including age in our regression model, low self-control remained statistically significant. Low self-control was positively and significantly associated with risky lifestyles (<m>b = 0.09</m>; <m>t = 5.51</m>; <m>p &lt; .05</m>). Age was also a significant predictor of risky lifestyles (<m>b = -0.01</m>; <m>t = -2.30</m>; <m>p &lt; .05</m>). Age was negatively and significantly associated with risky lifestyles.
     </p>
-  </section>
 
-  <section xml:id="sec-model-fit">
+  <subsection xml:id="sec-model-fit">
     <title>Model Fit for Linear Regression</title>
 
     <p>
@@ -300,6 +304,7 @@ summary(object = rl_by_lsc_age)
     <p>
       Now, what is adjusted R-squared? As additional variables are added to the model, the R-squared value tends to increase. Adjusted R-squared serves to counteract this tendency by slightly penalizing the R-squared value for each additional variable introduced into the model. This adjustment ensures that the measure appropriately accounts for the complexity of the model and prevents overestimation of its explanatory power.
     </p>
+  </subsection>
   </section>
 
   <section xml:id="sec-ch10-conclusion">
@@ -308,9 +313,8 @@ summary(object = rl_by_lsc_age)
     <p>
       This chapter introduced the concepts of simple and multiple linear regression, demonstrating how one or more independent variables can be used to predict a single dependent variable. I aimed to give those interested in becoming crime analysts an overview of basic statistics and how R can be employed to conduct statistical analyses. However, it is important to note that this book represents just the starting point of your exploration into statistics and the practical applications of the R programming language. There is much more to discover, and I encourage you to continue your journey toward a deeper comprehension of statistics and the versatile capabilities of R.
     </p>
-  </section>
 
-  <section xml:id="sec-ch10-references">
+  <subsection xml:id="sec-ch10-references">
     <title>References</title>
 
     <p>
@@ -320,6 +324,7 @@ summary(object = rl_by_lsc_age)
     <p>
       Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em> (4th ed.). Sage.
     </p>
+  </subsection>
   </section>
 
 </chapter>
