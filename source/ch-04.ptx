@@ -75,7 +75,6 @@ install.packages("gapminder")
 library(gapminder)
       </input>
     </program>
-  </subsection>
 
   <subsection xml:id="sec-gapminder-help-data">
     <title>Help and Data</title>
@@ -107,7 +106,7 @@ data("gapminder")
     <p>
       By executing <c>data("gapminder")</c>, the gapminder dataset will be available for use in your R environment.
     </p>
-
+  </subsection>
   <subsection xml:id="sec-subset-function">
     <title>Subset Function</title>
 
@@ -190,13 +189,13 @@ sd(gapminder.2007$pop)
       In this chapter, we learned how to use R data packages and how to compute central tendency and variability measures. Central tendency and variability are critical statistical concepts that provide valuable insights into the characteristics of a dataset. In the next chapter, we will learn how to check the reliability of a scale.
     </p>
 
-  <subsubsection xml:id="sec-ch04-references">
+  <subsection xml:id="sec-ch04-references">
     <title>References</title>
 
     <p>
       Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em>. Sage.
     </p>
-  </subsubsection>
+  </subsection>
   </section>
 
 </chapter>
