@@ -4,9 +4,9 @@
   <bibinfo>
 
     <author>
-      <personname>Author Name</personname>
-      <department>Department</department>
-      <institution>Institution</institution>
+      <personname>Jaeyong Choi, Ph.D.</personname>
+      <department>Department of Criminal Justice</department>
+      <institution>West Chester University</institution>
     </author>
     <date>
       <today />
@@ -18,11 +18,17 @@
 
     <copyright>
       <year>2025</year>
-      <holder>Author Name</holder>
+      <holder>Jaeyong Choi</holder>
       <shortlicense>
-        This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+        This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
+        (CC BY-SA 4.0) as a part of PA-ADOPT, except where otherwise noted.
         To view a copy of this license, visit
-        <url href="http://creativecommons.org/licenses/by-sa/4.0/" visual="creativecommons.org/licenses/by-sa/4.0">CreativeCommons.org</url>
+        <url href="http://creativecommons.org/licenses/by-sa/4.0/" visual="creativecommons.org/licenses/by-sa/4.0">CreativeCommons.org</url>.
+        Cover image <em>Magnifying Glass on White Paper</em> by Nataliya Vaitkevich from Pexels.
+        The contents of this eTextbook were developed under a grant from the Fund for the Improvement of
+        Postsecondary Education (FIPSE), U.S. Department of Education. However, those contents do not
+        necessarily represent the policy of the Department of Education, and you should not assume endorsement
+        by the Federal Government.
       </shortlicense>
     </copyright>
 
@@ -34,12 +40,100 @@
 
   <colophon xml:id="front-colophon">
     <colophon-items/>
+    <p>
+      The Verdana (&#169; 2006 Microsoft Corporation) and Courier New (&#169; 2006 The Monotype Corporation) fonts
+      have been used throughout this book, which is permitted by their licenses.
+      License: You may use this font as permitted by the EULA for the product in which this font is
+      included to display and print content. You may only (i) embed this font in content as permitted by
+      the embedding restrictions included in this font; and (ii) temporarily download this font to a printer
+      or other output device to help print content.
+      Embedding: Editable embedding. This font may be embedded in documents and temporarily
+      loaded on the remote system. Documents containing this font may be editable.
+    </p>
   </colophon>
+
+  <preface xml:id="preface-pa-adopt">
+    <title>About PA-ADOPT</title>
+    <p>
+      The Pennsylvania Alliance for Design of Open Textbooks (PA-ADOPT) is made up
+      of four participating institutions from Pennsylvania State System of Higher
+      Education (PASSHE) that are all regional and primarily undergraduate
+      institutions, situated in Southeastern Pennsylvania. The PA-ADOPT project
+      addresses gaps in the open eTextbook marketplace, improve student learning,
+      and mitigate rising student costs. PA-ADOPT was made possible by the US
+      Department of Education Open Textbook Pilot Program.
+    </p>
+  </preface>
+
+  <preface xml:id="preface-oer">
+    <title>About OER</title>
+    <p>
+      Open Educational Resources (OER) are instructional, learning and research
+      materials, digital or non, that are open-source and in the public domain or that are
+      licensed so that users have free and perpetual permission to engage in the
+      following activities:
+    </p>
+    <ul>
+      <li><p><em>Retain</em>: the right to make, own, and control copies of the content</p></li>
+      <li><p><em>Reuse</em>: the right to use the content in a wide range of ways</p></li>
+      <li><p><em>Revise</em>: the right to adapt, adjust, modify, or alter the content itself</p></li>
+      <li><p><em>Remix</em>: the right to combine the original or revised content with other open
+      content to create something new</p></li>
+      <li><p><em>Redistribute</em>: the right to share copies of the original content, revisions,
+      and remixes with others</p></li>
+    </ul>
+  </preface>
+
+  <biography xml:id="author-bio">
+    <title>About the Author</title>
+    <p>
+      Jaeyong Choi, Ph.D., is an Assistant Professor of Criminal Justice at West Chester University.
+      He has received multiple teaching and research awards, including the 2023 Roslyn Muraskin
+      Emerging Scholar Award from the Northeastern Association of Criminal Justice Sciences, the
+      2023 CJPR Policy Paper Award from the Sage Publication &amp; Criminal Justice Policy Review,
+      the 2020 Junior Faculty Research Award from the Korean Society of Criminology in America, and
+      the 2018 Teaching Award from the Center for Teaching Excellence at the Indiana University of
+      Pennsylvania. He has published more than 60 peer-reviewed articles in the areas of immigration
+      and criminal justice, cybercrime, criminological theory, and comparative research. His recent
+      work can be found in <em>Criminal Justice &amp; Behavior</em>, <em>Crime &amp; Delinquency</em>,
+      <em>Deviant Behavior</em>, <em>Journal of Criminal Justice</em>, <em>Journal of Interpersonal
+      Violence</em>, <em>Police Quarterly</em>, <em>Policing &amp; Society</em>, and <em>Prison Journal</em>.
+    </p>
+    <p>
+      Dr. Choi enjoys traveling, taking a walk, and meditating with his wife in his spare time.
+      With a new addition to the family, his days are filled with watching his daughter grow and
+      reach new milestones.
+    </p>
+  </biography>
 
   <preface xml:id="preface">
     <title>Preface</title>
     <p>
-      This book introduces basic statistical methods using R, with applications to crime analysis.
+      I wrote this eTextbook for individuals interested in pursuing careers as crime analysts,
+      especially those in undergraduate programs. Many undergraduate students I've taught understand
+      the significance of data and analysis in effectively operating the criminal justice system.
+      They also recognize that criminal justice agencies value individuals who can proficiently use
+      software programs. However, they often feel discouraged by the challenges they encounter while
+      studying statistics or learning software programs.
+    </p>
+    <p>
+      Traditional statistics textbooks tend to emphasize the mathematical foundations of statistical
+      techniques, which can be overwhelming and distracting for students. Additionally, students often
+      struggle to see how software programs can be practically applied to analyze crime-related data.
+      Limited access to subscription-based statistical software poses another obstacle. Although
+      students may learn programs like SPSS or Stata while at the university, they often find
+      themselves unable to continue using these programs after graduation, making their acquired
+      skills obsolete.
+    </p>
+    <p>
+      As an open-source software program, R offers a solution to these challenges. It is freely
+      accessible to anyone, including students, after they graduate. Therefore, I decided to write a
+      freely available book for those interested in becoming crime analysts, focusing on learning
+      statistics without delving too deeply into mathematics. Moreover, this book emphasizes practical
+      applications by utilizing R for data analysis, ensuring students can develop relevant skills
+      beyond the university. I hope that students can easily follow the instructions in this book and
+      replicate the same outcomes using the provided data. This practical experience will demonstrate
+      the value of statistics and R, ideally inspiring students to further their learning in these areas.
     </p>
   </preface>
 </frontmatter>
