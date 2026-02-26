@@ -1,12 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <chapter xml:id="ch-04" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Descriptive Statistics</title>
+  <title>Central Tendency and Variability</title>
 
-  <introduction>
+  <section xml:id="sec-central-tendency">
+    <title>Central Tendency</title>
+
     <p>
-      This chapter explores descriptive statistics for summarizing and describing crime data.
+      Central tendency refers to statistical measures that summarize the typical or average value within a group of numbers. These measures include the mean, mode, and median.
     </p>
-  </introduction>
+
+    <p>
+      <ul>
+        <li>
+          <p>
+            <term>Mean:</term> The mean is the most commonly used measure of central tendency. It is calculated by summing up all values in a dataset and dividing the sum by the total number of cases. The mean has the advantageous mathematical property of minimizing variance.
+          </p>
+        </li>
+        <li>
+          <p>
+            <term>Median:</term> The median represents the middle score or measurement in ranked scores or measurements. It divides the distribution into two halves. If the number of scores is even, the median is the average of the two middle scores.
+          </p>
+        </li>
+        <li>
+          <p>
+            <term>Mode:</term> The mode is the most frequent score in a dataset. It represents the value that occurs most often among the data points (Vogt &amp; Johnson, 2011).
+          </p>
+        </li>
+      </ul>
+    </p>
+  </section>
+
+  <section xml:id="sec-variability">
+    <title>Variability</title>
+
+    <p>
+      Variability refers to the extent to which individual scores in a dataset differ. It measures the dispersion or spread of scores around a central tendency, such as the mean. Two commonly used measures of variability are variance and the standard deviation.
+    </p>
+
+    <p>
+      <ul>
+        <li>
+          <p>
+            <term>Variance:</term> Variance quantifies the spread of scores in a distribution. A larger variance indicates that individual scores are more spread out from the mean, while a smaller variance indicates that scores are closer to the mean. It is calculated as the average of the squared deviations from the mean, representing the average squared distance of each score from the mean.
+          </p>
+        </li>
+        <li>
+          <p>
+            <term>Standard Deviation:</term> The standard deviation is the square root of the variance. It provides a measure of variability in the original units of measurement. By taking the square root of the variance, we obtain a measure that is more interpretable and easier to understand (Vogt &amp; Johnson, 2011).
+          </p>
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      We can compute the central tendency and variability measures using R. We will use the gapminder database, a well-known dataset used in data analysis and visualization. It contains socio-economic indicators for countries around the world over several decades. We will use R data packages to get this data to download the dataset.
+    </p>
+  </section>
+
+  <section xml:id="sec-gapminder-package">
+    <title>Gapminder Data Package</title>
+
+    <p>
+      You can easily install and load data packages in R using the <c>library()</c> function when you want to access the data. Let's use the gapminder data package as an example. Created by Jennifer Bryan for educational purposes, the gapminder data package provides a simplified version of the original Gapminder database found at <url href="https://gapminder.org" visual="gapminder.org">gapminder.org</url>. This package contains a subset of the data, including six variables (country, continent, year, life expectancy at birth, total population, and GDP per capita) for 142 countries, recorded every five years from 1952 to 2007. In this dataset, each row represents a country, whereas each column represents a variable.
+    </p>
+
+    <p>
+      To install and load the gapminder package, follow the same steps you would take to install and load any other R package, as discussed in previous chapters.
+    </p>
+
+    <program language="r">
+      <input>
+install.packages("gapminder")
+library(gapminder)
+      </input>
+    </program>
+  </section>
+
+  <section xml:id="sec-gapminder-help-data">
+    <title>Help and Data</title>
+
+    <p>
+      There is a simple way to get more information about the gapminder package.
+    </p>
+
+    <program language="r">
+      <input>
+?gapminder
+      </input>
+    </program>
+
+    <p>
+      This command will open the documentation page for the gapminder dataset, providing details about its structure, variables, and usage. You can also find information on how to load the dataset into your R environment and explore its contents.
+    </p>
+
+    <p>
+      Now that you have installed and loaded the gapminder package, load the gapminder dataset into the current R session:
+    </p>
+
+    <program language="r">
+      <input>
+data("gapminder")
+      </input>
+    </program>
+
+    <p>
+      By executing <c>data("gapminder")</c>, the gapminder dataset will be available for use in your R environment.
+    </p>
+  </section>
+
+  <section xml:id="sec-subset-function">
+    <title>Subset Function</title>
+
+    <p>
+      Let's say that we want to know the mean of the total population of 142 countries in 2007. But, the current gapminder dataset has all data for every 5 years from 1952 to 2007. We can subset the gapminder dataset for the year 2007 using the <c>filter</c> function of the <c>tidyverse</c> package.
+    </p>
+
+    <program language="r">
+      <input>
+library(tidyverse)
+gapminder.2007 &lt;- gapminder %&gt;%
+  filter(year == 2007)
+      </input>
+    </program>
+
+    <p>
+      The code above subsetted the gapminder dataset to include only observations for the year 2007.
+    </p>
+  </section>
+
+  <section xml:id="sec-mean-median">
+    <title>Mean and Median</title>
+
+    <p>
+      We will first use this subsetted dataset to compute the mean and median since the steps to get the mode are slightly more complicated.
+    </p>
+
+    <program language="r">
+      <input>
+mean(gapminder.2007$pop)
+median(gapminder.2007$pop)
+      </input>
+    </program>
+
+    <p>
+      The above code produces the mean and median: The mean total population in 2007 for the countries in the gapminder dataset is approximately 44,021,220, and the median total population in 2007 for the countries in the gapminder dataset is approximately 10,517,531.
+    </p>
+  </section>
+
+  <section xml:id="sec-mode">
+    <title>Mode</title>
+
+    <p>
+      To compute the mode of the total population in 2007 for the countries in the gapminder dataset, you need to download the <c>DescTools</c> package that allows you to use the mode function.
+    </p>
+
+    <program language="r">
+      <input>
+install.packages("DescTools")
+library(DescTools)
+Mode(gapminder.2007$pop)
+      </input>
+    </program>
+
+    <p>
+      It is not an error that you do not see a single value for the mode; this happened because there was no most frequent score in the dataset. There was no same number of total population across countries in 2007.
+    </p>
+  </section>
+
+  <section xml:id="sec-variance-std-dev">
+    <title>Variance and Standard Deviation</title>
+
+    <p>
+      Using the following syntax, you can compute the variance and standard deviation of the total population in 2007 for the countries in the gapminder dataset.
+    </p>
+
+    <program language="r">
+      <input>
+var(gapminder.2007$pop)
+sd(gapminder.2007$pop)
+      </input>
+    </program>
+  </section>
+
+  <section xml:id="sec-ch04-conclusion">
+    <title>Conclusion</title>
+
+    <p>
+      In this chapter, we learned how to use R data packages and how to compute central tendency and variability measures. Central tendency and variability are critical statistical concepts that provide valuable insights into the characteristics of a dataset. In the next chapter, we will learn how to check the reliability of a scale.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch04-references">
+    <title>References</title>
+
+    <p>
+      Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em>. Sage.
+    </p>
+  </section>
 
 </chapter>

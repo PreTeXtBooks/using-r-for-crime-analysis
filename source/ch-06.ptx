@@ -1,12 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <chapter xml:id="ch-06" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Probability and Distributions</title>
+  <title>Chi-Squared Test</title>
 
-  <introduction>
+  <section xml:id="sec-hypothesis-testing">
+    <title>Hypothesis Testing</title>
+
     <p>
-      This chapter introduces probability theory and statistical distributions relevant to crime analysis.
+      When evaluating social phenomena, especially regarding crime, people often make judgments. However, such judgments are not always correct. Researchers conducting empirical studies make tentative statements about phenomena and make decisions about the validity of those statements. These tentative statements are called hypotheses, and if one denies a hypothesis that happens to be true, they commit an error in judgment.
     </p>
-  </introduction>
+
+    <p>
+      When making decisions based on sample statistics about attributes of a population, i.e., unknown facts, one must judge whether something is like that or not. However, such judgments are not always accurate and can sometimes be wrong. In other words, researchers may make errors in judgment.
+    </p>
+
+    <p>
+      Specifically, hypothesis testing entails comparing empirically observed sample findings with the theoretically expected outcomes if the null hypothesis were true. The null hypothesis represents the hypothesis that a researcher aims to reject, thereby supporting its alternative. This hypothesis often posits that two or more variables are not related. To compare the null and alternative hypotheses, the researcher calculates the probability of the observed outcome occurring solely due to chance or random error (Vogt &amp; Johnson, 2011).
+    </p>
+  </section>
+
+  <section xml:id="sec-nhst-steps">
+    <title>NHST Steps</title>
+
+    <p>
+      This hypothesis testing is also known as null hypothesis significance testing, or NHST. In the context of NHST, it is recommended to follow these five steps:
+    </p>
+
+    <p>
+      <ol>
+        <li><p>Formulate the null and alternative hypotheses.</p></li>
+        <li><p>Calculate the test statistic.</p></li>
+        <li><p>Determine the probability (p-value) of obtaining a test statistic at least as extreme as the observed value, assuming no relationship exists.</p></li>
+        <li><p>If the p-value is very small, typically less than 5%, reject the null hypothesis.</p></li>
+        <li><p>If the p-value is not small, typically 5% or greater, retain the null hypothesis.</p></li>
+      </ol>
+    </p>
+  </section>
+
+  <section xml:id="sec-chi-squared-test">
+    <title>Chi-Squared Test</title>
+
+    <p>
+      The first hypothesis testing covered in this book is the chi-squared test, commonly called the one-sample chi-square. It is frequently employed to compare the proportion of cases from a sample with either hypothesized values or those previously obtained from a comparison population. In the data file, only one categorical variable and a designated proportion against which to evaluate the observed frequency are required. This test may assess whether no difference exists in the proportion within each category (e.g., 50%/50%) or against a specific proportion derived from a previous study.
+    </p>
+
+    <p>
+      For instance, 44 male respondents used credit cards, while 62 female respondents used credit cards for online purchases in our example. From this tabulation, we may conclude that more female respondents use credit cards for online purchases than their male counterparts. There is a difference in the usage of credit cards for online purchases between male and female groups. However, we have no evidence to determine whether this difference is statistically significant or by accident. That's why we conduct a hypothesis test to confirm our findings with statistical evidence. Below, we will evaluate the usage of credit cards for online purchases in the past 12 months between men and women using the NCVS data we used in the last chapter.
+    </p>
+  </section>
+
+  <section xml:id="sec-nhst-chi-squared">
+    <title>NHST Steps for Chi-Squared Test</title>
+
+    <subsection xml:id="subsec-chi-step1">
+      <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
+
+      <p>
+        The first step in conducting the chi-squared test is to write the null and alternative hypotheses.
+      </p>
+
+      <p>
+        <ul>
+          <li><p><m>H_0</m>: The usage of credit cards for online purchases in the past 12 months is the same across men and women.</p></li>
+          <li><p><m>H_A</m>: The usage of credit cards for online purchases in the past 12 months is not the same across men and women.</p></li>
+        </ul>
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-chi-step2">
+      <title>Step 2: Calculate the Test Statistic</title>
+
+      <p>
+        The test statistic to use when examining a relationship between two categorical variables is the chi-squared statistic. First, you will need to download the revised data from the 2016 NCVS from the shared Google Drive. Then, you will need to load the data using the following syntax.
+      </p>
+
+      <program language="r">
+        <input>
+library(haven)
+rNCVS2016 &lt;- read_dta("rNCVS2016.dta")
+View(rNCVS2016)
+        </input>
+      </program>
+
+      <p>
+        We will perform a chi-squared test on a contingency table using R. The variable <c>male</c> was coded as 0 for women and 1 for men. The <c>PayCred</c> variable represents whether the respondent used credit cards for online purchases in the past 12 months. Those who used it were coded as 1, and those who did not were coded as 0.
+      </p>
+
+      <program language="r">
+        <input>
+chisq.test(x = rNCVS2016$Male, y = rNCVS2016$PayCred)
+        </input>
+      </program>
+
+      <p>
+        The test statistic was <m>\chi^2 = 0.54045</m>.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-chi-step3">
+      <title>Step 3: Determine the Probability (P-Value)</title>
+
+      <p>
+        The probability of observing a chi-squared value of 0.54 in our sample, assuming no association between men and women in the population in using credit cards for online purchases in the past 12 months, is calculated to be 0.4622, indicating a p-value greater than 0.05.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-chi-step4">
+      <title>Step 4: If the P-Value Is Very Small, Typically Less Than 5%, Reject the Null Hypothesis</title>
+
+      <p>
+        Step 4 is not relevant in this situation.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-chi-step5">
+      <title>Step 5: If the P-Value Is Not Small, Typically 5% or Greater, Retain the Null Hypothesis</title>
+
+      <p>
+        The probability that the null hypothesis, stating <q>The usage of credit cards for online purchases in the past 12 months is the same across men and women,</q> holds true in the population, based on our sample data, is calculated to be 0.4622, indicating a p-value greater than 0.05. This relatively high probability suggests that the null hypothesis is likely true and should not be rejected.
+      </p>
+    </subsection>
+  </section>
+
+  <section xml:id="sec-chi-reporting">
+    <title>Reporting the Results</title>
+
+    <p>
+      So, how do we write up the results based on our test?
+    </p>
+
+    <p>
+      We conducted a chi-squared test to examine the null hypothesis, which posited no association between using credit cards for online purchases in the past 12 months and gender. Our analysis failed to reject the null hypothesis, suggesting no statistically significant association between the two variables [<m>\chi^2(1) = 0.54</m>; <m>p > .05</m>].
+    </p>
+
+    <p>
+      For a demonstration of how a chi-square test is applied and reported, I recommend reviewing the work of Choi and Han (2022). Their study provides a clear example of applying and reporting a chi-square test using the data from NCVS.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch06-conclusion">
+    <title>Conclusion</title>
+
+    <p>
+      In this chapter, we conducted first hypothesis testing using a chi-squared test. In the next chapter, we will use a different statistical test called t-test to compare different groups.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch06-references">
+    <title>References</title>
+
+    <p>
+      Choi, J., &amp; Han, S. (2022). Exploring gender disparity in capable guardianship against identity theft: A focus on internet-based behavior. <em>International Journal of Criminal Justice</em>, <em>4</em>(1), 25<ndash />48.
+    </p>
+
+    <p>
+      Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em> (4th ed.). Sage.
+    </p>
+  </section>
 
 </chapter>
