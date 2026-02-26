@@ -29,7 +29,6 @@
     <p>
       Many social constructs in social science are abstract, and it is very challenging to measure consistently, unlike our physical weight, which is an objective physical property. Thankfully, there is a statistical way to examine the reliability of a scale for crime analysts. In this chapter, we will use the data from the National Crime Victimization Survey (NCVS) to compute the reliability of a scale.
     </p>
-  </subsection>
 
   <subsection xml:id="sec-ncvs">
     <title>National Crime Victimization Survey</title>
@@ -58,7 +57,6 @@
     <p>
       On the other hand, internal consistency assesses the extent to which the items covering the scale all measure the same underlying attribute. There are various methods to measure internal consistency, with Cronbach's alpha coefficient being the most widely used statistic which is also available in R.
     </p>
-  </subsection>
 
   <subsection xml:id="sec-cronbach-alpha">
     <title>Cronbach's Alpha Coefficient</title>
@@ -171,7 +169,6 @@ print(alpha_result)
     <p>
       In this chapter, we covered the concept of reliability and explored various methods to measure it, including calculating internal consistency using R. The next chapter will delve into cross-tabulation and the chi-square test. These statistical tools are widely utilized for analyzing the relationship between two categorical variables.
     </p>
-  </subsection>
 
   <subsection xml:id="sec-ch05-references">
     <title>References</title>
