@@ -73,7 +73,7 @@ my_data &lt;- my_data %&gt;%
   rename(new_name = old_name)
 
 #Renaming Violent\r\ncrime to violent.crime
-X2018.UCR.PA.cleaned <- X2018.UCR.PA %>%
+X2018.UCR.PA.cleaned &lt;- X2018.UCR.PA %&gt;%
   rename(violent.crime = Violent\r\ncrime)
       </input>
     </program>
