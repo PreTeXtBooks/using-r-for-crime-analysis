@@ -135,5 +135,12 @@
       replicate the same outcomes using the provided data. This practical experience will demonstrate
       the value of statistics and R, ideally inspiring students to further their learning in these areas.
     </p>
+    <p>
+      This book was originally authored by <em>Jaeyong Choi, Ph.D.</em>, Assistant Professor of
+      Criminal Justice at West Chester University, and is published here as a
+      <url href="https://pretextbook.org">PreTeXt</url> book. The source files and full version
+      history are available on
+      <url href="https://github.com/PreTeXtBooks/using-r-for-crime-analysis">GitHub</url>.
+    </p>
   </preface>
 </frontmatter>
