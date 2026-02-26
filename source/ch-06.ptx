@@ -17,9 +17,8 @@
     <p>
       Specifically, hypothesis testing entails comparing empirically observed sample findings with the theoretically expected outcomes if the null hypothesis were true. The null hypothesis represents the hypothesis that a researcher aims to reject, thereby supporting its alternative. This hypothesis often posits that two or more variables are not related. To compare the null and alternative hypotheses, the researcher calculates the probability of the observed outcome occurring solely due to chance or random error (Vogt &amp; Johnson, 2011).
     </p>
-  </section>
 
-  <section xml:id="sec-nhst-steps">
+  <subsection xml:id="sec-nhst-steps">
     <title>NHST Steps</title>
 
     <p>
@@ -35,6 +34,7 @@
         <li><p>If the p-value is not small, typically 5% or greater, retain the null hypothesis.</p></li>
       </ol>
     </p>
+  </subsection>
   </section>
 
   <section xml:id="sec-chi-squared-test">
@@ -47,9 +47,8 @@
     <p>
       For instance, 44 male respondents used credit cards, while 62 female respondents used credit cards for online purchases in our example. From this tabulation, we may conclude that more female respondents use credit cards for online purchases than their male counterparts. There is a difference in the usage of credit cards for online purchases between male and female groups. However, we have no evidence to determine whether this difference is statistically significant or by accident. That's why we conduct a hypothesis test to confirm our findings with statistical evidence. Below, we will evaluate the usage of credit cards for online purchases in the past 12 months between men and women using the NCVS data we used in the last chapter.
     </p>
-  </section>
 
-  <section xml:id="sec-nhst-chi-squared">
+  <subsection xml:id="sec-nhst-chi-squared">
     <title>NHST Steps for Chi-Squared Test</title>
 
     <subsection xml:id="subsec-chi-step1">
@@ -120,6 +119,7 @@ chisq.test(x = rNCVS2016$Male, y = rNCVS2016$PayCred)
         The probability that the null hypothesis, stating <q>The usage of credit cards for online purchases in the past 12 months is the same across men and women,</q> holds true in the population, based on our sample data, is calculated to be 0.4622, indicating a p-value greater than 0.05. This relatively high probability suggests that the null hypothesis is likely true and should not be rejected.
       </p>
     </subsection>
+  </subsection>
   </section>
 
   <section xml:id="sec-chi-reporting">
