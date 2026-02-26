@@ -3,7 +3,7 @@
 <chapter xml:id="ch-04" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Central Tendency and Variability</title>
 
-  <subsection xml:id="sec-central-tendency">
+  <section xml:id="sec-central-tendency">
     <title>Central Tendency</title>
 
     <p>
@@ -29,7 +29,6 @@
         </li>
       </ul>
     </p>
-  </subsection>
 
   <subsection xml:id="sec-variability">
     <title>Variability</title>
@@ -57,8 +56,9 @@
       We can compute the central tendency and variability measures using R. We will use the gapminder database, a well-known dataset used in data analysis and visualization. It contains socio-economic indicators for countries around the world over several decades. We will use R data packages to get this data to download the dataset.
     </p>
   </subsection>
+</section>
 
-  <subsection xml:id="sec-gapminder-package">
+  <section xml:id="sec-gapminder-package">
     <title>Gapminder Data Package</title>
 
     <p>
@@ -107,7 +107,6 @@ data("gapminder")
     <p>
       By executing <c>data("gapminder")</c>, the gapminder dataset will be available for use in your R environment.
     </p>
-  </subsection>
 
   <subsection xml:id="sec-subset-function">
     <title>Subset Function</title>
@@ -182,8 +181,9 @@ sd(gapminder.2007$pop)
       </input>
     </program>
   </subsection>
+</section>
 
-  <subsection xml:id="sec-ch04-conclusion">
+  <section xml:id="sec-ch04-conclusion">
     <title>Conclusion</title>
 
     <p>
@@ -197,6 +197,6 @@ sd(gapminder.2007$pop)
       Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em>. Sage.
     </p>
   </subsubsection>
-  </subsection>
+  </section>
 
 </chapter>
