@@ -44,9 +44,8 @@
     <p>
       Another critical consideration is the research design. We could compare participants in the program to those who did not participate, or within-group changes could be analyzed by comparing participants' attitudes before and after the program.
     </p>
-  </section>
 
-  <section xml:id="sec-independent-ttest">
+  <subsection xml:id="sec-independent-ttest">
     <title>Independent-Samples T-Test</title>
 
     <p>
@@ -72,16 +71,16 @@ View(CBT_dataset_independent)
     <p>
       Executing <c>library(readr)</c> allows us to load the <c>readr</c> package into our R session. The <c>readr</c> package, part of the tidyverse collection, is specifically crafted to simplify importing flat-file data, such as CSVs and text files, into R. The <c>read_csv</c> function from the <c>readr</c> package is tailored for reading CSV files.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-nhst-independent-ttest">
+  <subsection xml:id="sec-nhst-independent-ttest">
     <title>NHST Steps for Independent-Samples T-Test</title>
 
     <p>
       Following the NHST steps we covered in the previous chapter, we will conduct the independent-samples t-test because we are comparing the mean scores of two distinct groups of individuals (i.e., CBT participants and non-participants).
     </p>
 
-    <subsection xml:id="subsec-ind-step1">
+    <subsubsection xml:id="subsec-ind-step1">
       <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
 
       <p>
@@ -90,9 +89,9 @@ View(CBT_dataset_independent)
           <li><p><m>H_A</m>: There is a difference in mean antisocial attitudes between CBT participants and non-participants.</p></li>
         </ul>
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-ind-step2">
+    <subsubsection xml:id="subsec-ind-step2">
       <title>Step 2: Calculate the Test Statistic</title>
 
       <p>
@@ -110,9 +109,9 @@ twosampt
       <p>
         The output should generate results from Welch's t-test. Welch's t-test differs slightly from the traditional t-test formula, primarily used when the data deviates from the assumption of equal variances. The <c>t.test()</c> output shows a t-statistic of 4.859. This t-value is well above a t-value of 1.96, which is the historical cut-off point for significance at the 95% confidence level.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-ind-step3">
+    <subsubsection xml:id="subsec-ind-step3">
       <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming No Relationship Exists</title>
 
       <p>
@@ -133,18 +132,18 @@ formatted_p_value
       <p>
         Now you know that the probability of obtaining a t-statistic of 4.859 is 0.000004485 if the null hypothesis is true, which is substantially smaller than .05, the conventionally used standard. R produces a regular numeric p-value, but when the p-value is very low, it may display scientific notation.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-ind-steps45">
+    <subsubsection xml:id="subsec-ind-steps45">
       <title>Steps 4 and 5: Reject or Retain the Null Hypothesis</title>
 
       <p>
         The t-statistic fell within the rejection region. The probability of this sample coming from a population where the mean antisocial attitudes for both CBT participants and non-participants are equal is exceedingly low. Therefore, it is probable that the sample is from a population where CBT participants and non-participants exhibit statistically significant different mean antisocial attitudes.
       </p>
-    </subsection>
-  </section>
+    </subsubsection>
+  </subsection>
 
-  <section xml:id="sec-ind-reporting">
+  <subsection xml:id="sec-ind-reporting">
     <title>Reporting the Results of an Independent-Samples T-Test</title>
 
     <p>
@@ -158,9 +157,9 @@ formatted_p_value
     <p>
       If you want to see how t-test results are reported in an academic peer-reviewed journal, please see Choi et al. (2020). My colleagues and I compared levels of fear of crime between women and men using independent-samples t-tests.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-density-plot">
+  <subsection xml:id="sec-density-plot">
     <title>Density Plot</title>
 
     <p>
@@ -200,6 +199,7 @@ dens_cbt
     <p>
       You can also conduct an independent-samples t-test with directionality in R. Specifically, if we were curious about whether CBT participants have lower levels of antisocial attitudes compared to non-participants, you can perform this in R as well. When you specify the alternative hypothesis's direction, it is called a one-tailed test. This is beyond the scope of this book, so we will move on to the next item in this chapter: paired-samples t-test.
     </p>
+  </subsection>
   </section>
 
   <section xml:id="sec-paired-ttest">
@@ -220,12 +220,11 @@ CBT_dataset_paired &lt;- read_csv("CBT_dataset_paired.csv")
 View(CBT_dataset_paired)
       </input>
     </program>
-  </section>
 
-  <section xml:id="sec-nhst-paired-ttest">
+  <subsection xml:id="sec-nhst-paired-ttest">
     <title>NHST Steps for Paired-Samples T-Test</title>
 
-    <subsection xml:id="subsec-paired-step1">
+    <subsubsection xml:id="subsec-paired-step1">
       <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
 
       <p>
@@ -234,9 +233,9 @@ View(CBT_dataset_paired)
           <li><p><m>H_A</m>: There is a difference in antisocial attitudes between the pre-CBT and post-CBT assessments.</p></li>
         </ul>
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-paired-step2">
+    <subsubsection xml:id="subsec-paired-step2">
       <title>Step 2: Calculate the Test Statistic</title>
 
       <p>
@@ -255,26 +254,26 @@ pairedsampt
       <p>
         The <c>t.test()</c> output shows a t-statistic of 5.4437.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-paired-step3">
+    <subsubsection xml:id="subsec-paired-step3">
       <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming No Relationship Exists</title>
 
       <p>
         The p-value was initially displayed in scientific notation as <c>3.796e-07</c>. To convert it to a standard numeric format, we will apply the same method used above. The resulting p-value is 0.0000003796, indicating a very low probability of detecting a mean difference of 5.245796 in antisocial attitudes between the pre-CBT and post-CBT assessments.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-paired-steps45">
+    <subsubsection xml:id="subsec-paired-steps45">
       <title>Steps 4 and 5: Reject or Retain the Null Hypothesis</title>
 
       <p>
         The t-statistic fell within the rejection region. The probability of this sample coming from a population where the mean antisocial attitudes for pre-CBT and post-CBT assessments are equal is exceedingly low. Therefore, it is probable that the sample is from a population where pre-CBT and post-CBT assessments exhibit different mean antisocial attitudes.
       </p>
-    </subsection>
-  </section>
+    </subsubsection>
+  </subsection>
 
-  <section xml:id="sec-paired-reporting">
+  <subsection xml:id="sec-paired-reporting">
     <title>Reporting the Results of a Paired-Samples T-Test</title>
 
     <p>
@@ -306,6 +305,7 @@ CBT_dataset_paired %&gt;%
     <p>
       If you want to see how t-test results are reported in an academic peer-reviewed journal, please see Choi (2020). In this paper, I used a paired-samples t-test to see changes in perceptions of the police among participants before and after watching videos related to the police.
     </p>
+  </subsection>
   </section>
 
   <section xml:id="sec-ch07-conclusion">
@@ -314,9 +314,8 @@ CBT_dataset_paired %&gt;%
     <p>
       We have covered two types of t-tests: the independent-samples t-test for comparing the means of two unrelated groups and the paired-samples t-test for comparing the means of two related groups. In the next chapter, we will delve into analysis of variance (ANOVA), which becomes handy when comparing mean scores across more than two groups. Additionally, you will learn about post hoc tests in ANOVA, which help identify statistically significant differences among multiple means.
     </p>
-  </section>
 
-  <section xml:id="sec-ch07-references">
+  <subsection xml:id="sec-ch07-references">
     <title>References</title>
 
     <p>
@@ -346,6 +345,6 @@ CBT_dataset_paired %&gt;%
     <p>
       Zara, G. (2019). Cognitive-behavioral treatment to prevent offending and to rehabilitate offenders. In D. P. Farrington, L. Kazemian, &amp; A. R. Piquero (Eds.), <em>The Oxford handbook of developmental and life-course criminology</em> (pp. 694<ndash />725). Oxford University Press.
     </p>
+  </subsection>
   </section>
-
 </chapter>
