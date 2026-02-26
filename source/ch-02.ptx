@@ -27,12 +27,18 @@ library(haven)
     </program>
 
     <p>
+      <c>library(haven)</c> loads the haven package in R, providing access to functions like <c>read_sav()</c> and <c>write_sav()</c>. Now, we are ready to read the 2012 GSS data that will be manipulated for the purpose of practice. You will be able to download this file from <url href="https://drive.google.com/drive/folders/1-2SSIz4DjlXMLb5ULRwIjPojw_lD3y5q?usp=drive_link">the shared Google Drive folder containing the 2012 GSS data</url>. The downloaded 2012 GSS data is an SPSS data file, and SPSS data files are typically based on the <c>.sav</c> extension. I will read the data from the file located on the following path: <c>C:/Users/75JCHOI/OneDrive - West Chester University of PA/WCU Research/R/data/GSS.2012.sav</c>. You will have to use your own file location to read the data. Please watch the following video to learn how to set up a working directory in R.
+    </p>
+
+    <video youtube="OJ4WBjV5o1I" xml:id="vid-working-directory"/>
+
+    <p>
       I will assign the read data to a new data frame labeled <c>GSS.2012</c>. Please note that we could read this SPSS file because we used the <c>haven</c> package, which allows users to import data from different software programs.
     </p>
 
     <program language="r">
       <input>
-GSS.2012 &lt;- read_sav("GSS.2012.sav")
+GSS.2012 &lt;- read_sav("C:/Users/75JCHOI/OneDrive - West Chester University of PA/WCU Research/R/data/GSS.2012.sav")
       </input>
     </program>
   </section>
