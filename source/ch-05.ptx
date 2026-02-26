@@ -3,7 +3,7 @@
 <chapter xml:id="ch-05" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Reliability of a Scale</title>
 
-  <section xml:id="sec-reliability-validity">
+  <subsection xml:id="sec-reliability-validity">
     <title>Reliability vs Validity</title>
 
     <p>
@@ -29,9 +29,9 @@
     <p>
       Many social constructs in social science are abstract, and it is very challenging to measure consistently, unlike our physical weight, which is an objective physical property. Thankfully, there is a statistical way to examine the reliability of a scale for crime analysts. In this chapter, we will use the data from the National Crime Victimization Survey (NCVS) to compute the reliability of a scale.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-ncvs">
+  <subsection xml:id="sec-ncvs">
     <title>National Crime Victimization Survey</title>
 
     <p>
@@ -45,9 +45,9 @@
     <p>
       Despite its benefits, the NCVS has limitations. One major challenge is that respondents may not always be forthcoming about their victimization experiences. For example, individuals may feel uncomfortable discussing sexual offenses openly. Additionally, the accuracy of respondents' memories may be affected since they are asked about victimization events every six months, leading to potential confusion about timelines. Furthermore, the survey design primarily focuses on street crimes, with limited coverage of other offenses. This narrow focus may result in the underrepresentation of certain types of crimes in the data, such as Part 2 offenses. Nonetheless, the NCVS provides valuable insights into unreported crime.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-testretest-internal-consistency">
+  <subsection xml:id="sec-testretest-internal-consistency">
     <title>Test-Retest and Internal Consistency Methods</title>
 
     <p>
@@ -57,17 +57,17 @@
     <p>
       On the other hand, internal consistency assesses the extent to which the items covering the scale all measure the same underlying attribute. There are various methods to measure internal consistency, with Cronbach's alpha coefficient being the most widely used statistic which is also available in R.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-cronbach-alpha">
+  <subsection xml:id="sec-cronbach-alpha">
     <title>Cronbach's Alpha Coefficient</title>
 
     <p>
       Cronbach's alpha coefficient is one of the most commonly used indicators of internal consistency. Ideally, the Cronbach alpha coefficient of a scale should be above 0.7 (DeVellis, 2012). However, Cronbach's alpha values are influenced by the number of items in the scale. For short scales, such as those with fewer than ten items, it is common to observe relatively low Cronbach values (e.g., below 0.7). In such cases, reporting the scale's mean inter-item correlation may be appropriate. An optimal range for the inter-item correlation is between 0.2 and 0.5 (Pallant, 2016).
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-importing-stata">
+  <subsection xml:id="sec-importing-stata">
     <title>Importing the Data in Stata Format</title>
 
     <p>
@@ -81,9 +81,9 @@ rNCVS2016 &lt;- read_dta("rNCVS2016.dta")
 view(rNCVS2016)
       </input>
     </program>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-guardianship">
+  <subsection xml:id="sec-guardianship">
     <title>Guardianship</title>
 
     <p>
@@ -105,9 +105,9 @@ view(rNCVS2016)
     <p>
       These items were labeled as <c>Guardian1</c>, <c>Guardian2</c>, <c>Guardian3</c>, <c>Guardian4</c>, <c>Guardian5</c>, <c>Guardian6</c>, and <c>Guardian7</c>. The response options for each item ranged from 0 (no) to 1 (yes).
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-psych-package">
+  <subsection xml:id="sec-psych-package">
     <title>Psych Package</title>
 
     <p>
@@ -120,9 +120,9 @@ install.packages("psych")
 library(psych)
       </input>
     </program>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-alpha-function">
+  <subsection xml:id="sec-alpha-function">
     <title>Alpha Function</title>
 
     <p>
@@ -149,9 +149,9 @@ print(alpha_result)
     <p>
       The syntax <c>print(alpha_result)</c> printed the results of the Cronbach's alpha analysis to the console. The output includes various statistics related to internal consistency reliability, such as the Cronbach's alpha value, item statistics, and frequencies.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-reporting-internal-consistency">
+  <subsection xml:id="sec-reporting-internal-consistency">
     <title>Reporting the Results Regarding the Internal Consistency</title>
 
     <p>
@@ -161,17 +161,17 @@ print(alpha_result)
     <p>
       While the reliability of the capable guardianship scale (Cronbach <m>\alpha = .67</m>) was slightly lower than the widely accepted standard (<m>\alpha = .70</m>, DeVellis, 2012), this alpha is sensitive to the small number of items in the scale. Briggs and Cheek (1986) suggested that as the mean inter-item correlation (.22) for the items is above .2, this scale can be regarded as reliable, indicating that the seven items are reliable sources to capture the levels of guardianship.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-ch05-conclusion">
+  <subsection xml:id="sec-ch05-conclusion">
     <title>Conclusion</title>
 
     <p>
       In this chapter, we covered the concept of reliability and explored various methods to measure it, including calculating internal consistency using R. The next chapter will delve into cross-tabulation and the chi-square test. These statistical tools are widely utilized for analyzing the relationship between two categorical variables.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-ch05-references">
+  <subsection xml:id="sec-ch05-references">
     <title>References</title>
 
     <p>
@@ -189,6 +189,6 @@ print(alpha_result)
     <p>
       Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em> (4th ed.). Sage.
     </p>
-  </section>
+  </subsection>
 
 </chapter>
