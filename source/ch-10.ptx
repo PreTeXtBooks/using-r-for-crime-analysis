@@ -274,6 +274,7 @@ Linear Regression Model</title>
       You can add the results regarding the model significance when reporting the results from simple linear regression.
       Our model significantly outperformed the baseline model (which used the mean of risky lifestyles) in explaining risky lifestyles (<m>F(1, 941) = 36.28</m>; <m>p &lt; .05</m>).
     </p>
+   </subsection>
   </section>
 
   <section xml:id="sec-multiple-linear-regression">
