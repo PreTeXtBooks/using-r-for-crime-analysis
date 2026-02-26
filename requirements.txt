@@ -1,2 +1,4 @@
-# This file was automatically generated with PreTeXt 2.37.1.
-pretext == 2.37.1
+# PreTeXt CLI - automatically generated requirement
+pretext == 2.36.0
+# Pelican is required for PreTeXt deployment strategy
+pelican >= 4.5.0
