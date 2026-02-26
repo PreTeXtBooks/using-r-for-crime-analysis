@@ -13,9 +13,8 @@
     <p>
       Crime analysts need to know the differences between Part 1 crime and Part 2 crime. There are two categories of criminal offenses. Part 1 offenses, known as index crimes or serious crimes, are generally felonies that can result in more than a year of incarceration in prisons. Some violent and property crimes that fall under Part 1 offenses include homicide, rape, robbery, aggravated assault, burglary, larceny-theft, motor vehicle theft, and arson. On the other hand, Part 2 offenses are non-index crimes and are considered less serious. These crimes are generally misdemeanors that warrant less than a year of incarceration. Part 2 offenses may include simple assault, vandalism, fraud, drug offenses, disorderly conduct, and other misdemeanors. The biggest limitation of the UCR is that the data only counts crimes reported to the police, so you cannot know how many crimes are underreported. This unreported crime is known as dark or hidden figures of crime, and several data-collecting strategies have been developed to estimate this underreporting. I will introduce these datasets in different chapters. In this chapter, we will learn how to compute descriptive statistics using Part 1 crime data.
     </p>
-  </section>
 
-  <section xml:id="sec-readxl-package">
+  <subsection xml:id="sec-readxl-package">
     <title>Readxl Package</title>
 
     <p>
@@ -42,9 +41,9 @@ view(X2018.UCR.PA)
     <p>
       The variable <c>violent crime</c> in the dataset is computed by aggregating all four different types of Part 1 violent offenses: murder/involuntary manslaughter, rape, robbery, and aggravated assault. Similarly, the variable <c>property crime</c> is computed by summing up all four different types of Part 1 property offenses: burglary, larceny-theft, motor vehicle theft, and arson.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-rename-function">
+  <subsection xml:id="sec-rename-function">
     <title>Rename Function</title>
 
     <p>
@@ -72,11 +71,18 @@ library(tidyverse)
 # the variable name from 'old_name' to 'new_name'
 my_data &lt;- my_data %&gt;%
   rename(new_name = old_name)
+
+#Renaming Violent\r\ncrime to violent.crime
+X2018.UCR.PA.cleaned <- X2018.UCR.PA %>%
+  rename(violent.crime = Violent\r\ncrime)
       </input>
     </program>
 
     <p>
-      Using this template, we can rename the <c>Violent\r\ncrime</c> variable to <c>violent.crime</c>:
+      Unfortunately, the code above did not work because R was confused about
+managing backslash characters in the variable name. When a variable name
+contains special characters such as backslashes, it is important to escape them in
+R properly:
     </p>
 
     <program language="r">
@@ -106,17 +112,17 @@ summary(X2018.UCR.PA.cleaned)
     <p>
       You will see that all variables are properly recoded.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-crime-rates">
+  <subsection xml:id="sec-crime-rates">
     <title>Crime Rates</title>
 
     <p>
       The term <q>crime rate</q> is commonly mentioned in the news. When we hear that crime rates are increasing, it often raises concerns, whereas hearing that crime rates are decreasing tends to make us feel relieved. Yet, what does crime rate mean? The crime rate is determined by dividing the number of Part 1 crimes by the total population and then multiplying the result by 100,000. Therefore, crime rate refers to the number of Part 1 offenses per 100,000 people in a given area. How can we create the crime rate variable for each city in our dataset?
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-mutate-function">
+  <subsection xml:id="sec-mutate-function">
     <title>Mutate Function</title>
 
     <p>
@@ -134,9 +140,9 @@ summary(X2018.UCR.PA.cleaned)
     <p>
       The <c>mutate()</c> function from the <c>dplyr</c> package was used to add a new variable called <c>crime.rate</c> to the <c>X2018.UCR.PA.cleaned</c> dataset. Within the <c>mutate()</c> function, the expression <c>(violent.crime + property.crime) / Population * 100000</c> calculates the crime rate. It first sums the number of <c>violent.crime</c> and <c>property.crime</c> incidents, then divides this sum by the <c>Population</c> variable, and finally multiplies the result by 100,000 to obtain the crime rate per 100,000 people.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-select-function">
+  <subsection xml:id="sec-select-function">
     <title>Select Function</title>
 
     <p>
@@ -154,9 +160,9 @@ view(selected.ucr)
     <p>
       The code above created a new data frame called <c>selected.ucr</c>, containing only the <c>City</c> and <c>crime.rate</c> columns from the original data frame. Now you can see the information regarding crime rate right next to each city. For example, Abington Township, Montgomery County had 1784.976 Part 1 offenses per 100,000 residents, whereas Adamstown had 915.455 Part 1 offenses per 100,000 residents.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-arrange-function">
+  <subsection xml:id="sec-arrange-function">
     <title>Arrange Function</title>
 
     <p>
@@ -174,9 +180,9 @@ view(arranged.data)
     <p>
       <c>selected.ucr</c> was the data frame used, which only contained the <c>City</c> and <c>crime.rate</c> columns. The <c>arrange(desc(crime.rate))</c> arranged the data frame in descending order of the <c>crime.rate</c> variable. When you view the newly arranged data frame using <c>view(arranged.data)</c>, you will see that Wilkes-Barre Township had the highest crime rate with 17757.009, followed by Frazer Township with 14424.779.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-cut-function">
+  <subsection xml:id="sec-cut-function">
     <title>Cut Function</title>
 
     <p>
@@ -200,9 +206,9 @@ summary(X2018.UCR.PA.cleaned$population.category)
     <p>
       I defined the breaks for the population categories. Then, I defined labels for the population categories corresponding to each range. I used the <c>cut()</c> function to categorize the towns into the specified categories by population size. The resulting variable <c>population.category</c> will contain the population category for each town. Now, each town in your dataset will be categorized into one of the specified population categories based on its population size. According to the results of the summary statistics, only one metropolitan city and two very large cities exist. The majority of the cities were either small or medium.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-groupby-function">
+  <subsection xml:id="sec-groupby-function">
     <title>Group_By Function</title>
 
     <p>
@@ -222,6 +228,7 @@ crime.table
     <p>
       The <c>group_by(population.category)</c> function groups the data by the <c>population.category</c> variable. Then, the <c>summarize()</c> function calculates summary statistics within each group. In this case, it computes the average crime rate (<c>avg.crime.rate</c>) and the total number of crimes (<c>total.crimes</c>) for each population category. The resulting <c>crime.table</c> contains summary statistics for each population category, including the average crime rate and the total number of crimes.
     </p>
+  </subsection>
   </section>
 
   <section xml:id="sec-geom-histogram">
