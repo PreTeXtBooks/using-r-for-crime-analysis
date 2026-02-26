@@ -1,12 +1,218 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <chapter xml:id="ch-08" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Correlation and Regression</title>
+  <title>Analysis of Variance</title>
 
-  <introduction>
+  <section xml:id="sec-intro-anova">
+    <title>Introduction to ANOVA</title>
+
     <p>
-      This chapter explores correlation analysis and regression modeling for crime data.
+      Analysis of variance (ANOVA) involves testing the statistical significance of differences among the mean scores of two or more groups on one or more variables. It serves as an extension of the t-test discussed in our previous class. The ANOVA procedure involves calculating an F ratio, which compares the variance between the groups to the variance within the groups. A large F ratio indicates greater variability between groups, attributed to the independent variable, compared to within each group, which represents random variability.
     </p>
-  </introduction>
+  </section>
+
+  <section xml:id="sec-media-police">
+    <title>Media Exposure and Perceptions of the Police</title>
+
+    <p>
+      Crime analysts do not always focus on numbers related to crime. Their research subjects can involve how people feel about crime or what people think about the police because residents' perceptions of crime and police can impact the operations of criminal justice professionals. In this chapter, we will use a trimmed version of data collected firsthand, focusing on a study I conducted. In my experiment (Choi, 2018), participants were randomly assigned to watch one of three video clips. The <q>police misconduct</q> condition depicted victims or their family members reflecting on police use of force. The <q>positive police</q> condition focused on the risks of police work and the sacrifices made by police officers. The <q>mixed</q> condition combined elements from both the <q>police misconduct</q> and <q>positive police</q> conditions to generate mixed messages about the police.
+    </p>
+
+    <p>
+      This study aimed to examine whether there are differences in perceptions of the police among groups assigned to watch different police-related videos. There are various methods to measure such perceptions, which have been a subject of debate among policing scholars (Brown &amp; Benedict, 2002; Cao, 2015). In my study, I employed confidence in the police scale, which was consistent with previous research (Gau, 2011; Reisig et al., 2007). This scale includes the following items:
+    </p>
+
+    <p>
+      <ul>
+        <li><p>People's basic rights are well-protected by police officers in my community.</p></li>
+        <li><p>Police officers can be trusted to make decisions that are right for my community.</p></li>
+        <li><p>Most police officers in my community do their jobs well.</p></li>
+        <li><p>Police officers in my community are generally honest.</p></li>
+      </ul>
+    </p>
+
+    <p>
+      Participants' responses to these survey items were measured on visual analog scales, which are psychometric scales allowing respondents to specify their responses visually on a continuous line between two ends.
+    </p>
+  </section>
+
+  <section xml:id="sec-one-way-anova">
+    <title>One-Way Analysis of Variance</title>
+
+    <p>
+      In this chapter, we will focus on one-way ANOVA, a statistical method used to analyze differences among the means of three or more independent groups on a single dependent variable. It is important to note that there are other types of ANOVA as well. For instance, two-way ANOVA examines the effects of two categorical independent variables on a single continuous dependent variable.
+    </p>
+
+    <p>
+      You will first need to load the data. You will download the file from the shared Google Drive folder containing the <c>media and police.sav</c> data. Since the data is an SPSS file, you will follow the steps that we covered previously. Each row represents each participant. <c>Condition</c> refers to the experimental condition to which each participant was assigned. <c>ConPolT1</c> represents respondents' confidence in the police before watching the video, and <c>ConPolT2</c> represents respondents' confidence in the police after watching the video.
+    </p>
+
+    <program language="r">
+      <input>
+library(haven)
+media_and_police &lt;- read_sav("media and police.sav")
+View(media_and_police)
+      </input>
+    </program>
+
+    <p>
+      When importing an SPSS file into an R environment, you might encounter the need for data recoding to effectively manage and clean your data. For instance, you may need to adjust the data type of certain variables for better suitability. In this case, let's focus on recoding the <c>Condition</c> variable.
+    </p>
+
+    <p>
+      We aim to change the data type of the <c>Condition</c> variable to a factor and add category labels to enhance clarity. Specifically, we will label the categories as follows:
+    </p>
+
+    <p>
+      <ul>
+        <li><p>1 = positive police image</p></li>
+        <li><p>2 = negative police image</p></li>
+        <li><p>3 = mixed police image (both positive and negative police images)</p></li>
+      </ul>
+    </p>
+
+    <p>
+      We learned how to recode a variable and add category labels in a previous chapter.
+    </p>
+
+    <program language="r">
+      <input>
+library(tidyverse)
+media_and_police_cleaned &lt;- media_and_police %&gt;%
+  mutate(Condition = as.factor(Condition))
+class(x = media_and_police_cleaned$Condition)
+media_and_police_cleaned &lt;- media_and_police_cleaned %&gt;%
+  mutate(Condition = recode(Condition,
+    "1" = "Positive Police Video",
+    "2" = "Negative Police Video",
+    "3" = "Mixed Police Video"))
+summary(media_and_police_cleaned)
+      </input>
+    </program>
+  </section>
+
+  <section xml:id="sec-nhst-anova">
+    <title>NHST Steps for One-Way ANOVA</title>
+
+    <p>
+      We may want to determine whether there is a significant difference in the mean scores for confidence in the police across groups who watched different videos. As mentioned in previous chapters, NHST intends to draw conclusions about the population based on the data from our sample.
+    </p>
+
+    <subsection xml:id="subsec-anova-step1">
+      <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
+
+      <p>
+        <ul>
+          <li><p><m>H_0</m>: The mean scores for confidence in the police are equal across groups who watched different videos.</p></li>
+          <li><p><m>H_A</m>: The mean scores for confidence in the police are not equal across groups who watched different videos.</p></li>
+        </ul>
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-anova-step2">
+      <title>Step 2: Calculate the Test Statistic</title>
+
+      <program language="r">
+        <input>
+police.by.con &lt;- oneway.test(formula = ConPolT2 ~ Condition,
+  data = media_and_police_cleaned,
+  var.equal = TRUE)
+police.by.con
+        </input>
+      </program>
+
+      <p>
+        The F statistic is 0.49287.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-anova-step3">
+      <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming no Relationship Exists</title>
+
+      <p>
+        The p-value obtained is 0.6114, which is considerably larger than the conventional significance level of 0.05. When the p-value is this large, it suggests that the observed result is not statistically significant, indicating no evidence to reject the null hypothesis. It is common to observe such small F-statistics when the null hypothesis is true.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-anova-steps4-5">
+      <title>Steps 4 &amp; 5: If the P-Value is Very Small, Typically Less Than 5%, Reject the Null Hypothesis, but if the P-Value is Not Small, Typically 5% or Greater, Retain the Null Hypothesis</title>
+
+      <p>
+        With a p-value <m>&gt; 0.05</m>, the ANOVA indicates that these groups likely came from a population with similar mean scores for confidence in the police by different experimental conditions.
+      </p>
+    </subsection>
+  </section>
+
+  <section xml:id="sec-reporting-anova">
+    <title>Reporting the Results From One-Way ANOVA</title>
+
+    <p>
+      A one-way ANOVA was conducted to explore the impact of media exposure on confidence in the police. Participants were randomly assigned to watch one of the three conditions (Group 1: Positive Police Video, Group 2: Negative Police Video, and Group 3: Mixed Police Video). There was no statistically significant difference at the <m>p &lt; .05</m> level in confidence in the police <m>F(2, 296) = 0.49</m>, <m>p = 0.61</m>.
+    </p>
+  </section>
+
+  <section xml:id="sec-post-hoc">
+    <title>Post-Hoc Test</title>
+
+    <p>
+      A post-hoc test is a statistical test conducted after ANOVA to assess the significance of differences between group means when an overall difference is detected. The F ratio from ANOVA indicates the presence of significant differences among the groups, and post-hoc tests aim to identify the specific nature and location of these differences (Vogt &amp; Johnson, 2011).
+    </p>
+
+    <p>
+      While the results from our one-way ANOVA suggest that the mean scores for confidence in the police are equal across groups who watched different videos, we will conduct a post-hoc test for demonstration purposes.
+    </p>
+
+    <p>
+      There are many types of post-hoc tests, but I will use Tukey's honestly significant difference (HSD) test to identify which groups differ.
+    </p>
+
+    <program language="r">
+      <input>
+tukey.police.by.con &lt;- TukeyHSD(x = aov(formula = ConPolT2 ~ Condition,
+  data = media_and_police_cleaned))
+tukey.police.by.con
+      </input>
+    </program>
+
+    <p>
+      The <c>diff</c> column represents the difference between the means in the sample. The <c>lwr</c> and <c>upr</c> columns denote the lower and upper bounds of a confidence interval around the <c>diff</c> value. The <c>p adj</c> column displays the adjusted p-value, indicating the statistical significance of the difference after adjusting for multiple comparisons. Not surprisingly, confidence in the police was not significantly different between any of these groups.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch08-conclusion">
+    <title>Conclusion</title>
+
+    <p>
+      In this chapter, we covered ANOVA, which compares the mean scores of more than two groups. In the next chapter, we will learn about correlation.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch08-references">
+    <title>References</title>
+
+    <p>
+      Brown, B., &amp; Benedict, W. R. (2002). Perceptions of the police: Past findings, methodological issues, conceptual issues and policy implications. <em>Policing: An International Journal of Police Strategies &amp; Management</em>, <em>25</em>(3), 543<ndash/>580.
+    </p>
+
+    <p>
+      Cao, L. (2015). Differentiating confidence in the police, trust in the police, and satisfaction with the police. <em>Policing: An International Journal of Police Strategies &amp; Management</em>, <em>38</em>(2), 239<ndash/>249. https://doi.org/10.1108/pijpsm-12-2014-0127
+    </p>
+
+    <p>
+      Choi, J. (2018). <em>Media exposure, confidence in the police, and police legitimacy</em> [Doctoral dissertation, Indiana University of Pennsylvania]. Indiana, PA.
+    </p>
+
+    <p>
+      Gau, J. M. (2011). The convergent and discriminant validity of procedural justice and police legitimacy: An empirical test of core theoretical propositions. <em>Journal of Criminal Justice</em>, <em>39</em>(6), 489<ndash/>498. https://doi.org/10.1016/j.jcrimjus.2011.09.004
+    </p>
+
+    <p>
+      Reisig, M. D., Bratton, J., &amp; Gertz, M. G. (2007). The construct validity and refinement of process-based policing measures. <em>Criminal Justice and Behavior</em>, <em>34</em>(8), 1005<ndash/>1028. https://doi.org/10.1177/0093854807301275
+    </p>
+
+    <p>
+      Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em> (4th ed.). Sage.
+    </p>
+  </section>
 
 </chapter>
