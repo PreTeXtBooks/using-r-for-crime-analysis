@@ -1,12 +1,325 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <chapter xml:id="ch-10" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Case Studies in Crime Analysis</title>
+  <title>Linear Regression</title>
 
-  <introduction>
+  <section xml:id="sec-intro-regression">
+    <title>Introduction to Regression</title>
+
     <p>
-      This chapter presents real-world case studies applying statistical methods to crime analysis problems.
+      In a previous chapter, we discussed correlation analysis, which helps us understand the degree of association between two or more variables. Regression analysis is closely linked to correlation analysis, but it offers a more sophisticated way to explore the relationships among variables. Regression is a broad term encompassing a set of statistical methods used for modeling the relationship between a dependent variable and one or more independent variables, such as simple linear regression, multiple linear regression, polynomial regression, logistic regression, and so on. According to Vogt and Johnson (2011), regression analysis serves three primary purposes:
     </p>
-  </introduction>
+
+    <p>
+      <ol>
+        <li><p>Predicting the change in a dependent variable for each one-unit increase in an independent variable.</p></li>
+        <li><p>Predicting the change in a dependent variable associated with a one-unit change in a specific independent variable, while controlling for other independent variables.</p></li>
+        <li><p>Assessing how much better we can explain or predict a dependent variable by considering all the independent variables together.</p></li>
+      </ol>
+    </p>
+
+    <p>
+      Regression analysis is a powerful tool for understanding and quantifying the relationships between variables and making predictions based on those relationships. In this chapter, we will review two forms of linear regression: simple linear regression and multiple linear regression.
+    </p>
+  </section>
+
+  <section xml:id="sec-simple-vs-multiple">
+    <title>Simple Linear Regression Vs. Multiple Linear Regression</title>
+
+    <p>
+      Linear regression analysis is commonly used to examine the relationship between one continuous dependent variable and a set of independent variables. Simple linear regression involves examining the linear relationship between the dependent variable and a single independent variable. Conversely, multiple linear regression entails analyzing the impact of multiple independent variables on a dependent variable in the linear relationships.
+    </p>
+  </section>
+
+  <section xml:id="sec-ols-model">
+    <title>Ordinary Least Squares (OLS) Model</title>
+
+    <p>
+      It is important to note that various types of linear regression models exist, but we will focus on the Ordinary Least Squares (OLS) regression model in this chapter because it is the most widely used. OLS is a statistical estimation technique for determining a regression equation that best represents the relationship between the dependent and independent variables. This method calculates the slope and intercept by minimizing the sum of squared differences between observed and predicted values. Other statistical estimation methods, such as maximum likelihood, are available for establishing a regression model.
+    </p>
+  </section>
+
+  <section xml:id="sec-inmate-survey">
+    <title>Inmate Self-Reported Survey</title>
+
+    <p>
+      In the previous chapters, I have discussed various data collection methods (e.g., Uniform Crime Report or National Crime Victimization Survey). Police departments and residents in the community can be great sources of data related to crime, but one source of the data we have not covered yet is inmates. Many inmates are in jails or prisons because they are arrested, prosecuted, and convicted for their accused crimes. If we survey inmates, they may provide useful information that can help us understand crime from offenders' perspectives. This is part of the reason why inmates have been used for various academic articles. For this chapter, I will use the data from an inmate self-reported survey conducted in Korea (Choi &amp; Dulisse, 2021). Specifically, we will first perform a simple linear regression to investigate the relationship between low self-control and risky lifestyles among inmates. Following that, we will conduct a multiple linear regression analysis, considering both low self-control and age as predictors, while evaluating their impact on risky lifestyle, which serves as the dependent variable.
+    </p>
+
+    <p>
+      Let's first load the data. You will download the data from the shared Google Drive folder containing the <c>Inmate Survey.sav</c> data. The next steps should be familiar to you at this stage.
+    </p>
+
+    <program language="r">
+      <input>
+library(haven)
+Inmate_Survey &lt;- read_sav("Inmate Survey.sav")
+View(Inmate_Survey)
+      </input>
+    </program>
+
+    <p>
+      A total of 986 inmates from 20 geographically distinct prisons participated in this survey. Risky lifestyles (<c>RL</c>) were assessed using four items that gauge involvement in unstructured criminogenic activities within the prison environment: (a) possession of prohibited items, (b) breaking away from designated areas, (c) participation in gambling, and (d) involvement in illegal transactions of prohibited products. Participants rated each item on a scale ranging from 0 (never) to 4 (more than 10 times). The scores for these items were summed to obtain a composite measure of risky lifestyles, with higher scores indicating greater involvement. This set of items demonstrates strong internal consistency, prompting students to recall their understanding of reliability testing. Age (<c>AGE</c>) is a continuous variable representing the participants' age. Low self-control (<c>LSC</c>) was assessed based on six items: <q>I prefer to do things physically rather than verbally,</q> <q>When encountering difficult or complicated tasks, I usually give up,</q> <q>I lose my temper easily,</q> <q>I enjoy doing things that are a little exciting,</q> <q>I often tease others,</q> and <q>I prioritize immediate pleasure.</q> A composite measure of low self-control was created by summing the scores on these six items, with higher scores indicating lower levels of self-control.
+    </p>
+  </section>
+
+  <section xml:id="sec-regression-assumptions">
+    <title>Assumptions of Linear Regression</title>
+
+    <p>
+      In the previous chapter, I emphasized the importance of checking multiple assumptions when conducting statistical analyses, as violating these assumptions can significantly impact linear regression results and lead to biased estimates of coefficients. To ensure the validity of our analysis, we need to consider several additional assumptions. Some of these may already be familiar to you, as they were also necessary for correlation analysis.
+    </p>
+
+    <p>
+      <ol>
+        <li><p>Each observation in our dataset should be independent of the others.</p></li>
+        <li><p>The outcome variable we are analyzing should be continuous.</p></li>
+        <li><p>The relationship between the outcome variable and each continuous predictor should be linear.</p></li>
+        <li><p>The variance of the outcome variable should be constant across all levels of the predictors, with points evenly distributed around the regression line.</p></li>
+        <li><p>The residuals (the differences between observed and predicted values) should be independent of each other.</p></li>
+        <li><p>The residuals should follow a normal distribution.</p></li>
+        <li><p>There should be no strong correlations among the predictor variables, as this can cause numerical instability in the estimation of coefficients.</p></li>
+      </ol>
+    </p>
+
+    <p>
+      There are various methods available in R to assess these assumptions. However, discussing them in detail would exceed the scope of our current analysis. For the purposes of demonstration, we will proceed with the analysis, assuming that these assumptions have been met.
+    </p>
+  </section>
+
+  <section xml:id="sec-scatterplot-regression">
+    <title>A Scatterplot of Low Self-Control and Risky Lifestyles</title>
+
+    <p>
+      We can create a scatterplot of low self-control and risky lifestyles to explore the relationship between these two variables.
+    </p>
+
+    <program language="r">
+      <input>
+library(tidyverse)
+Inmate_Survey %&gt;%
+  ggplot(aes(x = LSC, y = RL, color = "Points")) +
+  geom_point(aes(size = "id"), color = "purple", alpha = 0.5) +
+  geom_smooth(aes(color = "Linear fit line"), method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(y = "Risky Lifestyles", x = "LSC", color = "", shape = "") +
+  scale_size_manual(values = 2, name = "")
+      </input>
+    </program>
+
+    <p>
+      The graph above should give us a general idea regarding a bivariate relationship between the two variables. The <c>geom_smooth()</c> function with <c>method = "lm"</c> is used to add a linear regression line to the plot, which represents the best-fit straight line through the data points. The <c>aes(color = "Linear fit line")</c> part specifies that the color of this linear fit line will be labeled as <q>Linear fit line</q> in the legend, making it distinguishable from other elements in the plot. Setting <c>se = FALSE</c> means that the standard error bands around the linear regression line will not be displayed on the plot. These bands are typically shown by default to indicate the uncertainty or variability of the regression line, but in this case, they are disabled. This line goes up from left to right, showing a positive relationship between low self-control and risky lifestyles. Those with low self-control were more likely to engage in risky lifestyles, which makes sense.
+    </p>
+  </section>
+
+  <section xml:id="sec-correlation-check">
+    <title>Checking a Correlation Coefficient</title>
+
+    <p>
+      You may want to confirm if there is a positive correlation between low self-control and risky lifestyles. You can conduct a correlation analysis such as the one we covered in the previous chapter.
+    </p>
+
+    <program language="r">
+      <input>
+library(tidyverse)
+Inmate_Survey %&gt;%
+  summarize(correlation_lsc_rl = cor(LSC, RL, use = "pairwise.complete.obs"),
+            sample_size = n())
+      </input>
+    </program>
+
+    <p>
+      There were missing values in our dataset. The <c>pairwise.complete.obs</c> argument allows us to compute the correlation using complete pairs of observations, effectively handling missing values pairwise.
+    </p>
+  </section>
+
+  <section xml:id="sec-simple-linear-regression">
+    <title>Conducting Simple Linear Regression Analysis</title>
+
+    <p>
+      We'll now proceed to calculate the slope and intercept using the Ordinary Least Squares (OLS) method. OLS is employed to minimize the sum of squared differences between the observed and predicted values of the dependent variable by minimizing the overall distance between the data points and the regression line. The y-intercept represents the value of risky lifestyle when low self-control is zero. Meanwhile, the slope denotes the change in risky lifestyle for every one-unit change in low self-control.
+    </p>
+
+    <program language="r">
+      <input>
+rl_by_lsc &lt;- lm(formula = RL ~ LSC, data = Inmate_Survey, na.action = na.exclude)
+summary(object = rl_by_lsc)
+      </input>
+    </program>
+
+    <p>
+      The linear regression model <c>rl_by_lsc</c> predicts the dependent variable <c>RL</c> (risky lifestyle) based on the independent variable <c>LSC</c> (low self-control) using the <c>lm()</c> function in R. The <c>na.action = na.exclude</c> argument ensures that observations with missing values are included in the analysis rather than being removed. Based on the results, we can write down the regression equation for our model:
+    </p>
+
+    <p>
+      <me>
+        \text{Risky lifestyles} = -0.34 + 0.09 \times \text{low self-control}
+      </me>
+    </p>
+
+    <p>
+      This means that if low self-control increases by one unit in an inmate, risky lifestyles would typically change by 0.09227.
+    </p>
+  </section>
+
+  <section xml:id="sec-nhst-simple-regression">
+    <title>NHST Steps for Simple Linear Regression Model</title>
+
+    <p>
+      We may want to make inferences about the population (all inmates within the 20 prisons in South Korea where the current sample was drawn from) using the data we have. That is when we conduct Null Hypothesis Significance Testing (NHST), which was covered previously. Specifically, we may want to assess the statistical significance of the slope in simple linear regression. If the slope (i.e., the unstandardized coefficient of low self-control or the rate of change in risky lifestyle for a one-unit change in low self-control) is not equal to zero, it implies that there is a statistically significant relationship between low self-control and risky lifestyles.
+    </p>
+
+    <subsection xml:id="subsec-slr-step1">
+      <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
+
+      <p>
+        <ul>
+          <li><p><m>H_0</m>: The unstandardized coefficient of low self-control is equal to zero.</p></li>
+          <li><p><m>H_A</m>: The unstandardized coefficient of low self-control is not equal to zero.</p></li>
+        </ul>
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-slr-step2">
+      <title>Step 2: Calculate the Test Statistic</title>
+
+      <p>
+        The test statistic for the significance of the unstandardized coefficient in OLS regression is the t-statistic we used previously (aka the Wald test).
+      </p>
+
+      <program language="r">
+        <input>
+rl_by_lsc &lt;- lm(formula = RL ~ LSC, data = Inmate_Survey, na.action = na.exclude)
+summary(object = rl_by_lsc)
+        </input>
+      </program>
+
+      <p>
+        The results indicate that the unstandardized coefficient of low self-control is 0.09, and the t-value is 6.023.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-slr-step3">
+      <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming no Relationship Exists</title>
+
+      <p>
+        The p-value for the unstandardized coefficient of low self-control (0.09) is <m>&lt; 2.45 \times 10^{-9}</m>, which is much smaller than 0.05.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-slr-steps4-5">
+      <title>Steps 4 &amp; 5: If the P-Value is Very Small, Typically Less Than 5%, Reject the Null Hypothesis, but if the P-Value is Not Small, Typically 5% or Greater, Retain the Null Hypothesis</title>
+
+      <p>
+        The p-value of <m>&lt; 0.05</m> in our simple linear regression model suggests that there is a very slim probability that the t-statistic for the unstandardized coefficient of low self-control would be as large as observed if the null hypothesis were true. In short, the null hypothesis was rejected in favor of our alternative hypothesis that the unstandardized coefficient of low self-control is not equal to zero.
+      </p>
+    </subsection>
+  </section>
+
+  <section xml:id="sec-reporting-slr">
+    <title>Reporting the Results From the Simple Linear Regression Model</title>
+
+    <p>
+      We found that low self-control reported by inmates is a statistically significant predictor of risky lifestyles (<m>b = 0.09</m>; <m>p &lt; .05</m>) within our sample. Specifically, for every one-unit increase in low self-control among inmates, the predicted increase in risky lifestyle is 0.09 units.
+    </p>
+  </section>
+
+  <section xml:id="sec-model-significance-slr">
+    <title>Model Significance for Simple Linear Regression</title>
+
+    <p>
+      You might have noticed another p-value toward the bottom of the output, adjacent to the F-statistic for the linear regression. This p-value corresponds to a test statistic that evaluates the improvement of the regression line's fit to the data points compared to the mean value of our dependent variable (risky lifestyles). The F-statistic serves as the test statistic for linear regression, assessing how well the regression line fits compared to the mean value of risky lifestyles. The model fit can be tested by following the NHST steps that we used above.
+    </p>
+
+    <subsection xml:id="subsec-model-sig-step1">
+      <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
+
+      <p>
+        <ul>
+          <li><p><m>H_0</m>: A model including low self-control is not better at explaining risky lifestyles than a baseline model using the mean value of risky lifestyles.</p></li>
+          <li><p><m>H_A</m>: A model including low self-control is better at explaining risky lifestyles than a baseline model using the mean value of risky lifestyles.</p></li>
+        </ul>
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-model-sig-step2">
+      <title>Step 2: Calculate the Test Statistic</title>
+
+      <p>
+        From the provided output above, you can identify the F-value as <m>F(1, 941) = 36.28</m>.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-model-sig-step3">
+      <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming no Relationship Exists</title>
+
+      <p>
+        The probability of observing an F-value as large as 36.28, or even larger, if the null hypothesis were true, is very low (<m>p &lt; 0.05</m>).
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-model-sig-steps4-5">
+      <title>Steps 4 &amp; 5: If the P-Value is Very Small, Typically Less Than 5%, Reject the Null Hypothesis, but if the P-Value is Not Small, Typically 5% or Greater, Retain the Null Hypothesis</title>
+
+      <p>
+        Given the small p-value, we can reject the null hypothesis in favor of the alternative hypothesis that a model including low self-control is better at explaining risky lifestyles than a baseline model using the mean value of risky lifestyles.
+      </p>
+    </subsection>
+
+    <p>
+      Our model significantly outperformed the baseline model (which used the mean of risky lifestyles) in explaining risky lifestyles (<m>F(1, 941) = 36.28</m>; <m>p &lt; .05</m>).
+    </p>
+  </section>
+
+  <section xml:id="sec-multiple-linear-regression">
+    <title>Conducting Multiple Linear Regression</title>
+
+    <p>
+      Multiple linear regression involves incorporating multiple independent variables to predict the dependent variable. In the context of predicting risky lifestyles among inmates, it's clear that factors beyond just low self-control may play a role. For instance, age could be a significant demographic factor, as younger individuals might be more inclined to engage in risky behaviors compared to older inmates. Therefore, multiple linear regression is better suited for real-life scenarios where multiple factors influence dependent variables. All you need to do is to tweak the R codes that we used to perform a simple linear regression.
+    </p>
+
+    <program language="r">
+      <input>
+rl_by_lsc_age &lt;- lm(formula = RL ~ LSC + AGE, data = Inmate_Survey, na.action = na.exclude)
+summary(object = rl_by_lsc_age)
+      </input>
+    </program>
+
+    <p>
+      As you can see, even after including age in our regression model, low self-control remained statistically significant. Low self-control was positively and significantly associated with risky lifestyles (<m>b = 0.09</m>; <m>t = 5.51</m>; <m>p &lt; .05</m>). Age was also a significant predictor of risky lifestyles (<m>b = -0.01</m>; <m>t = -2.30</m>; <m>p &lt; .05</m>). Age was negatively and significantly associated with risky lifestyles.
+    </p>
+  </section>
+
+  <section xml:id="sec-model-fit">
+    <title>Model Fit for Linear Regression</title>
+
+    <p>
+      In the outputs for both simple linear regression and multiple linear regression, you may have observed multiple R-squared and adjusted R-squared values located just above the F-statistic. These statistics serve to evaluate the overall goodness of fit of the regression model. R-squared (aka the coefficient of determination) is calculated by determining the proportion of variance in the dependent variable that can be explained by the independent variables incorporated in the model. It ranges from 0 to 1, with 0 signifying that the independent variables account for none of the variance in the dependent variable, and 1 indicating that they explain all of the variance. In our multiple linear regression, for instance, the R-squared value is 0.04252. To determine the percentage of variance explained by the model, multiply this value by 100. Therefore, 4.25% of the variance in risky lifestyles is explained by both low self-control and age.
+    </p>
+
+    <p>
+      Now, what is adjusted R-squared? As additional variables are added to the model, the R-squared value tends to increase. Adjusted R-squared serves to counteract this tendency by slightly penalizing the R-squared value for each additional variable introduced into the model. This adjustment ensures that the measure appropriately accounts for the complexity of the model and prevents overestimation of its explanatory power.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch10-conclusion">
+    <title>Conclusion</title>
+
+    <p>
+      This chapter introduced the concepts of simple and multiple linear regression, demonstrating how one or more independent variables can be used to predict a single dependent variable. I aimed to give those interested in becoming crime analysts an overview of basic statistics and how R can be employed to conduct statistical analyses. However, it is important to note that this book represents just the starting point of your exploration into statistics and the practical applications of the R programming language. There is much more to discover, and I encourage you to continue your journey toward a deeper comprehension of statistics and the versatile capabilities of R.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch10-references">
+    <title>References</title>
+
+    <p>
+      Choi, J., &amp; Dulisse, B. (2021). Behind closed doors: The role of risky lifestyles and victimization experiences on fear of future victimization among South Korean inmates. <em>Journal of Interpersonal Violence</em>, <em>36</em>(21<ndash/>22), 10817<ndash/>10841. https://doi.org/10.1177/0886260519888186
+    </p>
+
+    <p>
+      Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em> (4th ed.). Sage.
+    </p>
+  </section>
 
 </chapter>
