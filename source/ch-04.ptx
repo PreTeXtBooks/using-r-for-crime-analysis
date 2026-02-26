@@ -3,7 +3,7 @@
 <chapter xml:id="ch-04" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Central Tendency and Variability</title>
 
-  <section xml:id="sec-central-tendency">
+  <subsection xml:id="sec-central-tendency">
     <title>Central Tendency</title>
 
     <p>
@@ -29,9 +29,9 @@
         </li>
       </ul>
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-variability">
+  <subsection xml:id="sec-variability">
     <title>Variability</title>
 
     <p>
@@ -56,9 +56,9 @@
     <p>
       We can compute the central tendency and variability measures using R. We will use the gapminder database, a well-known dataset used in data analysis and visualization. It contains socio-economic indicators for countries around the world over several decades. We will use R data packages to get this data to download the dataset.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-gapminder-package">
+  <subsection xml:id="sec-gapminder-package">
     <title>Gapminder Data Package</title>
 
     <p>
@@ -75,9 +75,9 @@ install.packages("gapminder")
 library(gapminder)
       </input>
     </program>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-gapminder-help-data">
+  <subsection xml:id="sec-gapminder-help-data">
     <title>Help and Data</title>
 
     <p>
@@ -107,9 +107,9 @@ data("gapminder")
     <p>
       By executing <c>data("gapminder")</c>, the gapminder dataset will be available for use in your R environment.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-subset-function">
+  <subsection xml:id="sec-subset-function">
     <title>Subset Function</title>
 
     <p>
@@ -127,9 +127,9 @@ gapminder.2007 &lt;- gapminder %&gt;%
     <p>
       The code above subsetted the gapminder dataset to include only observations for the year 2007.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-mean-median">
+  <subsection xml:id="sec-mean-median">
     <title>Mean and Median</title>
 
     <p>
@@ -146,9 +146,9 @@ median(gapminder.2007$pop)
     <p>
       The above code produces the mean and median: The mean total population in 2007 for the countries in the gapminder dataset is approximately 44,021,220, and the median total population in 2007 for the countries in the gapminder dataset is approximately 10,517,531.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-mode">
+  <subsection xml:id="sec-mode">
     <title>Mode</title>
 
     <p>
@@ -166,9 +166,9 @@ Mode(gapminder.2007$pop)
     <p>
       It is not an error that you do not see a single value for the mode; this happened because there was no most frequent score in the dataset. There was no same number of total population across countries in 2007.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-variance-std-dev">
+  <subsection xml:id="sec-variance-std-dev">
     <title>Variance and Standard Deviation</title>
 
     <p>
@@ -181,22 +181,22 @@ var(gapminder.2007$pop)
 sd(gapminder.2007$pop)
       </input>
     </program>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-ch04-conclusion">
+  <subsection xml:id="sec-ch04-conclusion">
     <title>Conclusion</title>
 
     <p>
       In this chapter, we learned how to use R data packages and how to compute central tendency and variability measures. Central tendency and variability are critical statistical concepts that provide valuable insights into the characteristics of a dataset. In the next chapter, we will learn how to check the reliability of a scale.
     </p>
-  </section>
 
-  <section xml:id="sec-ch04-references">
+  <subsubsection xml:id="sec-ch04-references">
     <title>References</title>
 
     <p>
       Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em>. Sage.
     </p>
-  </section>
+  </subsubsection>
+  </subsection>
 
 </chapter>
