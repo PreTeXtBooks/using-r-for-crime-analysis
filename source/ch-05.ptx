@@ -70,7 +70,7 @@
     <title>Importing the Data in Stata Format</title>
 
     <p>
-      First, you will download the revised data (<c>rNCVS2016.dta</c>) from the shared Google Drive folder containing the <c>rNCVS2016.dta</c> data. I removed numerous cases and variables that are less pertinent to the focus of this chapter. Next, we need to import this data into R. The data is in Stata format, indicated by the <c>.dta</c> extension. You can read the data from the <c>haven</c> package discussed in a previous chapter.
+      First, you will download the revised data (<c>rNCVS2016.dta</c>) from <url href="https://drive.google.com/drive/folders/1-2SSIz4DjlXMLb5ULRwIjPojw_lD3y5q?usp=drive_link" visual="the shared Google Drive folder">the shared Google Drive folder</url> containing the <c>rNCVS2016.dta</c> data. I removed numerous cases and variables that are less pertinent to the focus of this chapter. Next, we need to import this data into R. The data is in Stata format, indicated by the <c>.dta</c> extension. You can read the data from the <c>haven</c> package discussed in a previous chapter.
     </p>
 
     <program language="r">

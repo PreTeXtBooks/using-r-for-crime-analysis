@@ -47,7 +47,7 @@
     </p>
 
     <p>
-      Let's first load the data. You will download the data from the shared Google Drive folder containing the <c>Inmate Survey.sav</c> data. The next steps should be familiar to you at this stage.
+      Let's first load the data. You will download the data from <url href="https://drive.google.com/drive/folders/1-2SSIz4DjlXMLb5ULRwIjPojw_lD3y5q?usp=drive_link" visual="the shared Google Drive folder">the shared Google Drive folder</url> containing the <c>Inmate Survey.sav</c> data. The next steps should be familiar to you at this stage.
     </p>
 
     <program language="r">
