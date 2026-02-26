@@ -61,38 +61,37 @@
     <p>
       R is a computer software that can be used for crime data analysis. R is popular among people who handle and analyze data for several reasons. First, it is free. Anybody can use this software without having to pay a subscription fee. Second, R allows people to conduct various statistical analyses and compute graphical images, from very simple to advanced statistics. A problem with R is that it is not easy to use, especially for those who have not used it before. Writing codes can be overwhelming, but R's user interface does not help make it easy. RStudio is a software that makes R more user-friendly by providing various functions and support.
     </p>
-  </section>
 
-  <section xml:id="sec-setup-r-rstudio">
+  <subsection xml:id="sec-setup-r-rstudio">
     <title>Setting Up R and RStudio</title>
 
     <p>
       Now that we have discussed why data analysis is important in the criminal justice field, let us analyze the data to see the value of analysis. You will need to install R and RStudio, and you can use <url href="https://sites.google.com/wcupa.edu/rforrams/home" visual="sites.google.com/wcupa.edu/rforrams/home">R Is for Rams</url> to follow the instructions and complete the installation process successfully.
     </p>
-  </section>
+  </subsection>
 
-  <section xml:id="sec-calculating-using-r">
+  <subsection xml:id="sec-calculating-using-r">
     <title>Calculating Using R</title>
 
     <p>
       While R is incredibly flexible and supports numerous statistical packages, at its core, it functions as a big, powerful calculator. The basic use of R helps you analyze criminal justice data. If you follow the instructions below, you will not have major trouble producing the same outcome. Since R is a big calculator, we will do some calculations.
     </p>
 
-    <subsection xml:id="subsec-launch-rstudio">
+    <subsubsection xml:id="subsec-launch-rstudio">
       <title>Step 1. Launch RStudio</title>
       <p>
         Open the RStudio application on your computer.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-script-or-console">
+    <subsubsection xml:id="subsec-script-or-console">
       <title>Step 2. Choose Script or Console</title>
       <p>
         You can work with R in RStudio using either the script editor or the console. The console lets you execute commands interactively, while the script editor lets you write and save scripts for more complex tasks. Today, we will use the console.
       </p>
-    </subsection>
+    </subsubsection>
 
-    <subsection xml:id="subsec-type-r-code">
+    <subsubsection xml:id="subsec-type-r-code">
       <title>Step 3. Type R Code</title>
       <p>
         In the R console of RStudio, you can directly type R code.
@@ -207,7 +206,8 @@ mean(x)
       <p>
         The <c>mean()</c> function calculates the arithmetic mean or average of a numeric vector or a group of numeric values. You can compute the arithmetic mean by dividing the sum of all values by the total number of values.
       </p>
-    </subsection>
+    </subsubsection>
+  </subsection>
   </section>
 
   <section xml:id="sec-r-packages">
