@@ -1,12 +1,254 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <chapter xml:id="ch-03" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Data Collection and Management</title>
+  <title>Creating a New Variable and Producing Summary Statistics</title>
 
-  <introduction>
+  <section xml:id="sec-ucr">
+    <title>Uniform Crime Report</title>
+
     <p>
-      This chapter covers methods for collecting, importing, and managing crime data in R.
+      This chapter will teach us how to create a new variable and produce summary statistics. We will use the crime data from the Uniform Crime Report (UCR)—specifically, the 2018 Part 1 crime data from Pennsylvania. More than 18,000 police departments in the US report crime data to the FBI, and the FBI compiles the nationwide data and publishes the UCR.
     </p>
-  </introduction>
+
+    <p>
+      Crime analysts need to know the differences between Part 1 crime and Part 2 crime. There are two categories of criminal offenses. Part 1 offenses, known as index crimes or serious crimes, are generally felonies that can result in more than a year of incarceration in prisons. Some violent and property crimes that fall under Part 1 offenses include homicide, rape, robbery, aggravated assault, burglary, larceny-theft, motor vehicle theft, and arson. On the other hand, Part 2 offenses are non-index crimes and are considered less serious. These crimes are generally misdemeanors that warrant less than a year of incarceration. Part 2 offenses may include simple assault, vandalism, fraud, drug offenses, disorderly conduct, and other misdemeanors. The biggest limitation of the UCR is that the data only counts crimes reported to the police, so you cannot know how many crimes are underreported. This unreported crime is known as dark or hidden figures of crime, and several data-collecting strategies have been developed to estimate this underreporting. I will introduce these datasets in different chapters. In this chapter, we will learn how to compute descriptive statistics using Part 1 crime data.
+    </p>
+  </section>
+
+  <section xml:id="sec-readxl-package">
+    <title>Readxl Package</title>
+
+    <p>
+      First, you will need to download the file labeled <c>2018.UCR.PA.xlsx</c> from the shared Google Drive folder containing the 2018.UCR.PA.xlsx data. The data we will use is from an Excel file. The <c>haven</c> package may be less suitable for importing an Excel file (typically with an <c>xlsx</c> extension) than it was for opening the SPSS file we used previously. So, we should first install and load the <c>readxl</c> package. Then, we will read the file into R.
+    </p>
+
+    <program language="r">
+      <input>
+install.packages("readxl")
+library(readxl)
+X2018.UCR.PA &lt;- read_excel("2018.UCR.PA.xlsx")
+view(X2018.UCR.PA)
+      </input>
+    </program>
+
+    <p>
+      This code loads the <c>readxl</c> package and then reads an Excel file at the specified path. The contents of this file are then assigned to an object named <c>X2018.UCR.PA</c>. It's worth noting that I added an <q>X</q> before the object's name <q>2018.UCR.PA</q> because R doesn't allow a number to be the first character in an object name.
+    </p>
+
+    <p>
+      When you use the view function to inspect the data, you'll notice that the dataset's structure differs from the 2012 General Social Survey (GSS) data we worked with in the previous chapter. In the GSS dataset, each row represented a respondent, and each column represented a variable. However, in the UCR dataset, each row represents a city. There are 12 variables in total, including city and population.
+    </p>
+
+    <p>
+      The variable <c>violent crime</c> in the dataset is computed by aggregating all four different types of Part 1 violent offenses: murder/involuntary manslaughter, rape, robbery, and aggravated assault. Similarly, the variable <c>property crime</c> is computed by summing up all four different types of Part 1 property offenses: burglary, larceny-theft, motor vehicle theft, and arson.
+    </p>
+  </section>
+
+  <section xml:id="sec-rename-function">
+    <title>Rename Function</title>
+
+    <p>
+      Please use the summary function to see if the variables are coded properly.
+    </p>
+
+    <program language="r">
+      <input>
+summary(X2018.UCR.PA)
+      </input>
+    </program>
+
+    <p>
+      The results show that there are some issues with the way variables were labeled. For example, you may notice that the variable name is <c>Violent\r\ncrime</c>. This occurs because of how the data is formatted in the Excel file. There was a space between <q>Violent</q> and <q>crime</q> in the Excel file. We need to rename these variables so that variable names are simplified and easy to type.
+    </p>
+
+    <p>
+      Load the <c>tidyverse</c> package and use the <c>rename</c> function from the <c>dplyr</c> package.
+    </p>
+
+    <program language="r">
+      <input>
+library(tidyverse)
+# Assuming 'my_data' is your data frame or tibble and you want to change
+# the variable name from 'old_name' to 'new_name'
+my_data &lt;- my_data %&gt;%
+  rename(new_name = old_name)
+      </input>
+    </program>
+
+    <p>
+      Using this template, we can rename the <c>Violent\r\ncrime</c> variable to <c>violent.crime</c>:
+    </p>
+
+    <program language="r">
+      <input>
+X2018.UCR.PA.cleaned &lt;- X2018.UCR.PA %&gt;%
+  rename(violent.crime = `Violent\r\ncrime`)
+      </input>
+    </program>
+
+    <p>
+      Using a backtick when specifying column names helps to avoid issues with escape characters like <c>\r\n</c>. But, since there are multiple variables with wrong labels, we can change all of them simultaneously by using the pipe operator as we did in the previous chapter.
+    </p>
+
+    <program language="r">
+      <input>
+X2018.UCR.PA.cleaned &lt;- X2018.UCR.PA %&gt;%
+  rename(violent.crime = `Violent\r\ncrime`) %&gt;%
+  rename(murder.manslaughter = `Murder and\r\nnonnegligent\r\nmanslaughter`) %&gt;%
+  rename(aggravated.assault = `Aggravated\r\nassault`) %&gt;%
+  rename(property.crime = `Property\r\ncrime`) %&gt;%
+  rename(larceny.theft = `Larceny-\r\ntheft`) %&gt;%
+  rename(motor.theft = `Motor\r\nvehicle\r\ntheft`)
+summary(X2018.UCR.PA.cleaned)
+      </input>
+    </program>
+
+    <p>
+      You will see that all variables are properly recoded.
+    </p>
+  </section>
+
+  <section xml:id="sec-crime-rates">
+    <title>Crime Rates</title>
+
+    <p>
+      The term <q>crime rate</q> is commonly mentioned in the news. When we hear that crime rates are increasing, it often raises concerns, whereas hearing that crime rates are decreasing tends to make us feel relieved. Yet, what does crime rate mean? The crime rate is determined by dividing the number of Part 1 crimes by the total population and then multiplying the result by 100,000. Therefore, crime rate refers to the number of Part 1 offenses per 100,000 people in a given area. How can we create the crime rate variable for each city in our dataset?
+    </p>
+  </section>
+
+  <section xml:id="sec-mutate-function">
+    <title>Mutate Function</title>
+
+    <p>
+      We can use the <c>mutate</c> function that we learned in the previous chapter. The total number of Part 1 offenses can be computed by adding violent and property crimes to the dataset. This total number of Part 1 offenses will be divided by the population of each city, and the result will be multiplied by 100,000.
+    </p>
+
+    <program language="r">
+      <input>
+X2018.UCR.PA.cleaned &lt;- X2018.UCR.PA.cleaned %&gt;%
+  mutate(crime.rate = ((violent.crime + property.crime) / Population) * 100000)
+summary(X2018.UCR.PA.cleaned)
+      </input>
+    </program>
+
+    <p>
+      The <c>mutate()</c> function from the <c>dplyr</c> package was used to add a new variable called <c>crime.rate</c> to the <c>X2018.UCR.PA.cleaned</c> dataset. Within the <c>mutate()</c> function, the expression <c>(violent.crime + property.crime) / Population * 100000</c> calculates the crime rate. It first sums the number of <c>violent.crime</c> and <c>property.crime</c> incidents, then divides this sum by the <c>Population</c> variable, and finally multiplies the result by 100,000 to obtain the crime rate per 100,000 people.
+    </p>
+  </section>
+
+  <section xml:id="sec-select-function">
+    <title>Select Function</title>
+
+    <p>
+      To display the names of cities and each city's crime rate next to each other in R, you can use the <c>select()</c> function from the <c>dplyr</c> package to select only these variables.
+    </p>
+
+    <program language="r">
+      <input>
+selected.ucr &lt;- X2018.UCR.PA.cleaned %&gt;%
+  select(City, crime.rate)
+view(selected.ucr)
+      </input>
+    </program>
+
+    <p>
+      The code above created a new data frame called <c>selected.ucr</c>, containing only the <c>City</c> and <c>crime.rate</c> columns from the original data frame. Now you can see the information regarding crime rate right next to each city. For example, Abington Township, Montgomery County had 1784.976 Part 1 offenses per 100,000 residents, whereas Adamstown had 915.455 Part 1 offenses per 100,000 residents.
+    </p>
+  </section>
+
+  <section xml:id="sec-arrange-function">
+    <title>Arrange Function</title>
+
+    <p>
+      Even though it is very useful to view the data frame this way, you may want to see which municipalities have higher crime rates. You can rearrange the data by using the <c>arrange</c> function.
+    </p>
+
+    <program language="r">
+      <input>
+arranged.data &lt;- selected.ucr %&gt;%
+  arrange(desc(crime.rate))
+view(arranged.data)
+      </input>
+    </program>
+
+    <p>
+      <c>selected.ucr</c> was the data frame used, which only contained the <c>City</c> and <c>crime.rate</c> columns. The <c>arrange(desc(crime.rate))</c> arranged the data frame in descending order of the <c>crime.rate</c> variable. When you view the newly arranged data frame using <c>view(arranged.data)</c>, you will see that Wilkes-Barre Township had the highest crime rate with 17757.009, followed by Frazer Township with 14424.779.
+    </p>
+  </section>
+
+  <section xml:id="sec-cut-function">
+    <title>Cut Function</title>
+
+    <p>
+      Now, you may want to categorize towns based on population. You can create categories representing different population ranges. Cities may be divided into five different categories: small (population between 0 [inclusive] and 10,000 [exclusive]), medium (population between 10,000 [inclusive] and 50,000 [exclusive]), large (population between 50,000 [inclusive] and 100,000 [exclusive]), very large (population between 100,000 [inclusive] and 500,000 [exclusive]), and metropolitan (population 500,000 [inclusive] and above).
+    </p>
+
+    <program language="r">
+      <input>
+# Define the breaks for population categories
+breaks &lt;- c(0, 10000, 50000, 100000, 500000, Inf)
+# Define the labels for the population categories
+labels &lt;- c("Small", "Medium", "Large", "Very Large", "Metropolitan")
+# Create a new variable 'population.category' based on the population ranges
+X2018.UCR.PA.cleaned &lt;- X2018.UCR.PA.cleaned %&gt;%
+  mutate(population.category = cut(Population, breaks = breaks, labels = labels,
+                                   include.lowest = TRUE))
+summary(X2018.UCR.PA.cleaned$population.category)
+      </input>
+    </program>
+
+    <p>
+      I defined the breaks for the population categories. Then, I defined labels for the population categories corresponding to each range. I used the <c>cut()</c> function to categorize the towns into the specified categories by population size. The resulting variable <c>population.category</c> will contain the population category for each town. Now, each town in your dataset will be categorized into one of the specified population categories based on its population size. According to the results of the summary statistics, only one metropolitan city and two very large cities exist. The majority of the cities were either small or medium.
+    </p>
+  </section>
+
+  <section xml:id="sec-groupby-function">
+    <title>Group_By Function</title>
+
+    <p>
+      Now, you might want to check the average crime rate and the total number of crimes for each population category. We are going to use the <c>group_by</c> function from <c>dplyr</c> to perform these tasks.
+    </p>
+
+    <program language="r">
+      <input>
+crime.table &lt;- X2018.UCR.PA.cleaned %&gt;%
+  group_by(population.category) %&gt;%
+  summarize(avg.crime.rate = mean(crime.rate, na.rm = TRUE),
+            total.crimes = sum(crime.rate, na.rm = TRUE))
+crime.table
+      </input>
+    </program>
+
+    <p>
+      The <c>group_by(population.category)</c> function groups the data by the <c>population.category</c> variable. Then, the <c>summarize()</c> function calculates summary statistics within each group. In this case, it computes the average crime rate (<c>avg.crime.rate</c>) and the total number of crimes (<c>total.crimes</c>) for each population category. The resulting <c>crime.table</c> contains summary statistics for each population category, including the average crime rate and the total number of crimes.
+    </p>
+  </section>
+
+  <section xml:id="sec-geom-histogram">
+    <title>Geom_Histogram()</title>
+
+    <p>
+      Finally, we can create a graph to see the distribution of crime rates across Pennsylvania cities. Specifically, we can create a histogram that is useful for displaying the distribution of continuous data by dividing it into bins (i.e., bar charts are useful for visualizing the frequency of each category in categorical variables). We are going to use <c>ggplot2</c> to accomplish this task.
+    </p>
+
+    <program language="r">
+      <input>
+crime.rate.table &lt;- X2018.UCR.PA.cleaned %&gt;%
+  ggplot(aes(x = crime.rate, fill = after_stat(count))) +
+  geom_histogram() +
+  labs(x = "Crime rates", y = "Frequency", title = "Distribution of Crime Rates") +
+  theme_minimal()
+crime.rate.table
+      </input>
+    </program>
+
+    <p>
+      <c>X2018.UCR.PA.cleaned</c> is the data frame containing the variable I wanted to visualize, and <c>aes(x = crime.rate)</c> specifies the <c>crime.rate</c> variable that I wanted to plot on the x-axis. <c>geom_histogram()</c> was the function used to create the histogram. <c>fill = after_stat(count)</c> within the <c>aes()</c> function assigned a fill color to the bars based on the count of observations in each bin. This results in a gradient color scale where darker colors represent higher frequencies.
+    </p>
+
+    <p>
+      In this chapter, we reviewed how to create a variable and produce summary statistics using the concept of crime rates. In the next chapter, we will learn more about central tendency and spread, which are critical statistical measures that visualize data patterns.
+    </p>
+  </section>
 
 </chapter>
