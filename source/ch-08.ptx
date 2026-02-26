@@ -44,7 +44,7 @@
     </p>
 
     <p>
-      You will first need to load the data. You will download the file from the shared Google Drive folder containing the <c>media and police.sav</c> data. Since the data is an SPSS file, you will follow the steps that we covered previously. Each row represents each participant. <c>Condition</c> refers to the experimental condition to which each participant was assigned. <c>ConPolT1</c> represents respondents' confidence in the police before watching the video, and <c>ConPolT2</c> represents respondents' confidence in the police after watching the video.
+      You will first need to load the data. You will download the file from <url href="https://drive.google.com/drive/folders/1-2SSIz4DjlXMLb5ULRwIjPojw_lD3y5q?usp=drive_link" visual="the shared Google Drive folder">the shared Google Drive folder</url> containing the <c>media and police.sav</c> data. Since the data is an SPSS file, you will follow the steps that we covered previously. Each row represents each participant. <c>Condition</c> refers to the experimental condition to which each participant was assigned. <c>ConPolT1</c> represents respondents' confidence in the police before watching the video, and <c>ConPolT2</c> represents respondents' confidence in the police after watching the video.
     </p>
 
     <program language="r">

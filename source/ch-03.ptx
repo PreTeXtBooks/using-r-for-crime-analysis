@@ -18,7 +18,7 @@
     <title>Readxl Package</title>
 
     <p>
-      First, you will need to download the file labeled <c>2018.UCR.PA.xlsx</c> from the shared Google Drive folder containing the 2018.UCR.PA.xlsx data. The data we will use is from an Excel file. The <c>haven</c> package may be less suitable for importing an Excel file (typically with an <c>xlsx</c> extension) than it was for opening the SPSS file we used previously. So, we should first install and load the <c>readxl</c> package. Then, we will read the file into R.
+      First, you will need to download the file labeled <c>2018.UCR.PA.xlsx</c> from <url href="https://drive.google.com/drive/folders/1-2SSIz4DjlXMLb5ULRwIjPojw_lD3y5q?usp=drive_link" visual="the shared Google Drive folder">the shared Google Drive folder</url> containing the 2018.UCR.PA.xlsx data. The data we will use is from an Excel file. The <c>haven</c> package may be less suitable for importing an Excel file (typically with an <c>xlsx</c> extension) than it was for opening the SPSS file we used previously. So, we should first install and load the <c>readxl</c> package. Then, we will read the file into R.
     </p>
 
     <program language="r">

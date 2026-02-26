@@ -70,7 +70,7 @@
       <title>Step 2: Calculate the Test Statistic</title>
 
       <p>
-        The test statistic to use when examining a relationship between two categorical variables is the chi-squared statistic. First, you will need to download the revised data from the 2016 NCVS from the shared Google Drive. Then, you will need to load the data using the following syntax.
+        The test statistic to use when examining a relationship between two categorical variables is the chi-squared statistic. First, you will need to download the revised data from the 2016 NCVS from <url href="https://drive.google.com/drive/folders/1-2SSIz4DjlXMLb5ULRwIjPojw_lD3y5q?usp=drive_link" visual="the shared Google Drive folder">the shared Google Drive folder</url>. Then, you will need to load the data using the following syntax.
       </p>
 
       <program language="r">
