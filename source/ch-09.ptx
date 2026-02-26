@@ -1,12 +1,180 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <chapter xml:id="ch-09" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Advanced Statistical Methods</title>
+  <title>Correlation</title>
 
-  <introduction>
+  <section xml:id="sec-intro-correlation">
+    <title>Introduction to Correlation</title>
+
     <p>
-      This chapter introduces advanced statistical techniques applicable to crime analysis.
+      Correlation measures the extent to which two or more variables are related to each other and is typically expressed as a correlation coefficient. The correlation test is a basic but commonly used method for examining the relationship between variables by assessing how two variables change together. However, there's a common misconception among students who interpret the warning about correlation: <q>correlation does not equal causation.</q> Some students mistakenly believe that two correlated variables can never be causally linked. This is an erroneous conclusion. A more accurate understanding of the warning is that correlation does not necessarily imply causation. In other words, while correlation between variables is necessary for causation, it is not always sufficient (Vogt &amp; Johnson, 2011).
     </p>
-  </introduction>
+  </section>
+
+  <section xml:id="sec-pearson-correlation">
+    <title>Pearson Product-Moment Correlation Coefficient</title>
+
+    <p>
+      Correlation measures the strength and direction of the linear relationship between two variables. There are various types of correlations. However, this chapter will focus on a Pearson product-moment correlation coefficient (aka Pearson correlation coefficient, Pearson's <m>r</m>, or Pearson's correlation) designed to evaluate the relationship between continuous variables (or one dichotomous variable and one continuous variable). It is calculated by dividing the covariance (a measure of how two variables covary together) by the product of their standard deviations.
+    </p>
+
+    <p>
+      The Pearson correlation coefficient ranges from <m>-1</m> to <m>+1</m>, indicating the strength and direction of the linear relationship between two variables. A positive correlation (value closer to <m>+1</m>) suggests that as one variable increases, the other also tends to increase. On the other hand, a negative correlation (value closer to <m>-1</m>) indicates that as one variable increases, the other tends to decrease, lowering the value of the other variable. Conversely, a correlation of 0 indicates no discernible relationship between the two variables. The absolute value of the correlation coefficient indicates the strength of the relationship between the variables, with larger absolute values representing stronger relationships.
+    </p>
+
+    <p>
+      What standards should we use to determine whether a relationship is strong or weak? Many people use Cohen's (1988) guideline to interpret the magnitude of Pearson correlation coefficients:
+    </p>
+
+    <p>
+      <ul>
+        <li><p>Small correlation: <m>r = .10</m> to <m>.29</m></p></li>
+        <li><p>Medium correlation: <m>r = .30</m> to <m>.49</m></p></li>
+        <li><p>Large correlation: <m>r = .50</m> to <m>1.00</m></p></li>
+      </ul>
+    </p>
+  </section>
+
+  <section xml:id="sec-computing-correlation">
+    <title>Computing Correlation Using the USArrests Dataset</title>
+
+    <p>
+      We will use the data that we used in the first chapter to estimate correlation. As reviewed in Chapter 1, the built-in <c>USArrests</c> dataset includes information on the number of arrests per 100,000 residents for assault, murder, and rape in each of the 50 states in the United States in 1973 and the percentage of the population residing in urban areas. Each row in the dataset represents a US state. Specifically, we will be evaluating if the number of arrests per 100,000 residents for murder correlates with the number of arrests per 100,000 residents for assault.
+    </p>
+
+    <p>
+      Correlation can be obtained through the following functions:
+    </p>
+
+    <program language="r">
+      <input>
+# Load the dataset
+data("USArrests")
+library(tidyverse)
+USArrests %&gt;%
+  summarize(cor.murder.assault = cor(x = Murder, y = Assault, use = "complete"))
+      </input>
+    </program>
+
+    <p>
+      The Pearson's product-moment correlation coefficient obtained is 0.8018733. The number of arrests per 100,000 residents for murder was positively correlated with the number of arrests per 100,000 residents for assault. This means that, in the US in 1973, as the number of arrests per 100,000 residents for murder went up, so did the number of arrests per 100,000 residents for assault. According to Cohen's (1988) guideline, this value indicates a very strong correlation between the variables of interest.
+    </p>
+
+    <p>
+      However, a crucial aspect is missing: the assessment of statistical significance. Inferential statistics play a vital role here, enabling us to draw conclusions from sample data by inferring insights about a population. Thus, determining whether the observed correlation is statistically significant is essential for meaningful interpretation in inferential statistics. Technically speaking, in our dataset, we do not need to conduct inferential statistics because the data sampled all 50 states instead of only 25 states out of 50 states. But, for demonstration purposes, I will show how we can conduct a statistical test for correlation coefficients, following the steps for hypothesis testing.
+    </p>
+  </section>
+
+  <section xml:id="sec-nhst-correlation">
+    <title>NHST Steps for Pearson's R Correlation Coefficient</title>
+
+    <subsection xml:id="subsec-cor-step1">
+      <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
+
+      <p>
+        <ul>
+          <li><p><m>H_0</m>: There is no relationship between the number of arrests per 100,000 residents for murder and the number of arrests per 100,000 residents for assault.</p></li>
+          <li><p><m>H_A</m>: There is a relationship between the number of arrests per 100,000 residents for murder and the number of arrests per 100,000 residents for assault.</p></li>
+        </ul>
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-cor-step2">
+      <title>Step 2: Calculate the Test Statistic</title>
+
+      <p>
+        When testing the null hypothesis for the correlation coefficient, we employ a t-statistic to compare the observed correlation coefficient (<m>r</m>) to a hypothesized value of 0. This t-statistic helps us determine whether the observed correlation is statistically significant or if it could have occurred by chance. We will use R code to perform this task.
+      </p>
+
+      <program language="r">
+        <input>
+cor.test(x = USArrests$Murder,
+         y = USArrests$Assault)
+        </input>
+      </program>
+
+      <p>
+        You will see that the correlation coefficient is 0.8018733.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-cor-step3">
+      <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming No Relationship Exists</title>
+
+      <p>
+        The p-value, the probability that the t-statistic (of 9.2981 in this case) would occur by sampling error, was <c>2.596e-12</c>, which was essentially much smaller than 0.05.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-cor-steps45">
+      <title>Steps 4 and 5: Reject or Retain the Null Hypothesis</title>
+
+      <p>
+        The very small p-value (much smaller than 0.05) indicates that a very strong positive relationship between the number of arrests per 100,000 residents for assault and murder is very unlikely if the null hypothesis were true.
+      </p>
+    </subsection>
+  </section>
+
+  <section xml:id="sec-correlation-reporting">
+    <title>Reporting the Results for Pearson's Product-Moment Correlation Coefficient</title>
+
+    <p>
+      The number of arrests per 100,000 residents for murder is statistically significant and very strongly positively correlated with the number of arrests per 100,000 residents for assault in 50 US states in 1973 [<m>r = .80</m>; <m>t(48) = 9.30</m>; <m>p &lt; .05</m>]. As the number of arrests per 100,000 residents for murder goes up, the number of arrests per 100,000 residents for assault goes up. While the correlation is .80 in this sample, the correlation is probable between .68 and .88 in the population (95% CI: .68<ndash />.88).
+    </p>
+  </section>
+
+  <section xml:id="sec-correlation-assumptions">
+    <title>Assumptions That Need to Be Met to Perform Correlation Analysis</title>
+
+    <p>
+      It is important to highlight that correlation analysis has specific conditions and assumptions that must be met for accurate interpretation. While these assumptions are crucial for sound statistical analysis, I have not delved deeply into them in this book. This decision stems from the complexity of these assumptions, which could potentially overwhelm those learning the field. Instead, the aim of this book is to provide a broad overview of statistics and analysis, focusing on fundamental concepts rather than intricate technical details.
+    </p>
+
+    <p>
+      Ensuring that certain assumptions are satisfied before conducting correlation analysis is crucial. Five key assumptions must be met for reliable results:
+    </p>
+
+    <p>
+      <ol>
+        <li><p>The observations need to be independent of each other. This means that one observation's value should not influence another's value.</p></li>
+        <li><p>Both variables being analyzed should be continuous. This ensures that the correlation analysis is applicable and meaningful.</p></li>
+        <li><p>Both variables need to follow a normal distribution. This implies that the data points are evenly distributed around the mean in a bell-shaped curve.</p></li>
+        <li><p>The relationship between the two variables should be linear. In other words, as one variable increases, the other should either increase or decrease consistently.</p></li>
+        <li><p>The variance between the two variables should be constant, meaning that the spread of data points around the line of best fit remains consistent throughout the range of values.</p></li>
+      </ol>
+    </p>
+
+    <p>
+      It's worth noting that many advanced statistical techniques have been developed precisely because data often fail to meet one or more of these assumptions, highlighting the importance of understanding and addressing these issues in statistical analysis.
+    </p>
+  </section>
+
+  <section xml:id="sec-scatter-plot">
+    <title>Scatter Plot</title>
+
+    <p>
+      A scatter plot visually represents the relationship between two variables by displaying individual points on a graph. Each point on the plot corresponds to a unique data point or observation, formed by the intersection of the values of the two variables being studied. By examining the pattern of these points, we can discern the strength and direction of the correlation between the two variables (Vogt &amp; Johnson, 2011). If you want to see how to create a scatter plot, refer to Chapter 1.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch09-conclusion">
+    <title>Conclusion</title>
+
+    <p>
+      In this chapter, we covered correlation and how to compute the Pearson's product-moment correlation coefficient. Chapter 10 will delve into regression analysis, a powerful statistical technique used to understand the relationship between variables. Specifically, we will explore what regression entails and how to calculate regression coefficients, which are essential in quantifying the strength and direction of these relationships.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch09-references">
+    <title>References</title>
+
+    <p>
+      Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em> (2nd ed.). Erlbaum Associates.
+    </p>
+
+    <p>
+      Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em> (4th ed.). Sage.
+    </p>
+  </section>
 
 </chapter>

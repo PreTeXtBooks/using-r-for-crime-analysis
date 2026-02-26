@@ -1,12 +1,351 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <chapter xml:id="ch-07" xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Hypothesis Testing</title>
+  <title>T-Test</title>
 
-  <introduction>
+  <section xml:id="sec-intro-ttest">
+    <title>Introduction to T-Test</title>
+
     <p>
-      This chapter covers statistical hypothesis testing methods and their applications in crime research.
+      In the previous chapter, I demonstrated that the chi-squared test is employed when examining whether a significant association exists between two categorical variables. For instance, it can be used to test if there is a correlation between the use of credit cards (yes = 1 or no = 0) for online purchases and gender (male = 1 or female = 0). However, what if one of the variables we want to examine is continuous data, not categorical? For instance, suppose we want to investigate whether there is a difference in the number of items purchased online in the past 12 months between men and women. A chi-squared test will not be the most effective statistical tool here. Instead, the t-test is a statistical significance test frequently utilized to evaluate the difference between two group means, such as the average score on antisocial attitudes among inmates who participated in cognitive behavioral therapy (CBT) and those who did not. For example, even if inmates who completed CBT have lower antisocial attitudes than those who did not, it is a different question whether this difference is statistically significant.
     </p>
-  </introduction>
+
+    <p>
+      There are two main types of t-tests:
+    </p>
+
+    <p>
+      <ul>
+        <li><p><term>Independent-samples t-test:</term> This test is employed when comparing the mean scores of two distinct groups of individuals or conditions.</p></li>
+        <li><p><term>Paired-samples t-test:</term> This test is used when assessing the mean scores within the same group of individuals on two separate occasions, or when dealing with matched pairs of data.</p></li>
+      </ul>
+    </p>
+
+    <p>
+      In this chapter, we will use two fictitious datasets to conduct these two types of t-tests.
+    </p>
+  </section>
+
+  <section xml:id="sec-cbt-background">
+    <title>Cognitive Behavioral Therapy</title>
+
+    <p>
+      Those who study crime and criminals should pay great attention to the issue of rehabilitation. A significant portion of inmates eventually reintegrate into society, where they play crucial roles as members of our communities. A variety of rehabilitation programs have been developed to alter the belief systems and behaviors of offenders. Among the most prevalent programs implemented in correctional settings is CBT. CBT programs operate under the premise that holding antisocial attitudes correlates with increased engagement in antisocial behavior. Specifically, these programs posit that exposure to high-risk situations triggers antisocial thoughts and emotions, thereby heightening the probability of engaging in antisocial behavior (Vaske et al., 2011). CBT programs that target criminal activity have been used as popular interventions in correctional settings because many evaluation studies have shown that CBT reduces recidivism significantly (Landenberger &amp; Lipsey, 2005; Lipsey et al., 2007; Zara, 2019).
+    </p>
+
+    <p>
+      Let's consider a scenario where high-risk inmates were selected at random to participate in a CBT program. This program was conducted in a group setting within the prison, with trained facilitators leading individual sessions aimed at tackling the diverse challenges offenders encounter upon their return to the community. These challenges, spanning from addiction and employment to family obligations and victimization, frequently impede successful reintegration. The program consists of 10 sessions spread over a period of 10 weeks, totaling approximately 20 hours of engagement.
+    </p>
+
+    <p>
+      How do we assess the effectiveness of this CBT program? Initially, we must define the criteria by which we will evaluate its success. Those responsible for implementing the program must first clarify its objectives. For instance, the program might aim to modify the attitudes, behaviors, or both, of inmates. If our focus is on behavioral change, we could monitor participants' recidivism rates, such as rearrest or reconviction. Alternatively, we could concentrate on shifts in participants' attitudes.
+    </p>
+
+    <p>
+      Another critical consideration is the research design. We could compare participants in the program to those who did not participate, or within-group changes could be analyzed by comparing participants' attitudes before and after the program.
+    </p>
+  </section>
+
+  <section xml:id="sec-independent-ttest">
+    <title>Independent-Samples T-Test</title>
+
+    <p>
+      First, we will examine a scenario where high-risk inmates were randomly chosen to participate in a CBT program. In this context, we will compare the antisocial attitudes of those who were randomly selected for the program with those who were not. For our analysis, let's assume that antisocial attitudes were assessed using a scale developed by Farrington and McGee (2017). This scale comprises a 24-item self-reported instrument with a 4-point response format, including statements like <q>If someone does the dirty on me, I always try to get my own back</q> or <q>I enjoy watching people getting beaten up on TV.</q> The higher antisocial attitudes score reflects higher levels of antisocial attitudes (e.g., aggressiveness).
+    </p>
+
+    <p>
+      We will use the fictitious dataset I constructed to contrast inmates who engaged in a CBT program with those who did not. In this hypothetical study, there were 100 high-risk inmates in the prison. Fifty inmates were randomly allocated to participate in a 10-week CBT program, while the other 50 were randomly assigned not to participate. If the program yielded an impact, we anticipate observing reduced levels of antisocial attitudes among those who participated compared to their counterparts.
+    </p>
+
+    <p>
+      Let's first download the data from <url href="https://drive.google.com/file/d/1ZhkH8gaMpBsF0bg-ROW06G-LrVvg3jol/view?usp=drive_link" visual="the shared Google Drive folder">the shared Google Drive folder</url> containing the <c>CBT_dataset_independent.csv</c> data. Then, load the data for this study using the syntax below. Each row in this data represents each inmate. The <c>Group</c> variable is a categorical variable where the category <c>Participants</c> refers to those who participated in a CBT program, whereas <c>Non-Participants</c> refers to those who did not. The <c>AntiSocial</c> variable represents inmates' antisocial attitudes.
+    </p>
+
+    <program language="r">
+      <input>
+library(readr)
+CBT_dataset_independent &lt;- read_csv("CBT_dataset_independent.csv")
+View(CBT_dataset_independent)
+      </input>
+    </program>
+
+    <p>
+      Executing <c>library(readr)</c> allows us to load the <c>readr</c> package into our R session. The <c>readr</c> package, part of the tidyverse collection, is specifically crafted to simplify importing flat-file data, such as CSVs and text files, into R. The <c>read_csv</c> function from the <c>readr</c> package is tailored for reading CSV files.
+    </p>
+  </section>
+
+  <section xml:id="sec-nhst-independent-ttest">
+    <title>NHST Steps for Independent-Samples T-Test</title>
+
+    <p>
+      Following the NHST steps we covered in the previous chapter, we will conduct the independent-samples t-test because we are comparing the mean scores of two distinct groups of individuals (i.e., CBT participants and non-participants).
+    </p>
+
+    <subsection xml:id="subsec-ind-step1">
+      <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
+
+      <p>
+        <ul>
+          <li><p><m>H_0</m>: There is no difference in mean antisocial attitudes between CBT participants and non-participants.</p></li>
+          <li><p><m>H_A</m>: There is a difference in mean antisocial attitudes between CBT participants and non-participants.</p></li>
+        </ul>
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-ind-step2">
+      <title>Step 2: Calculate the Test Statistic</title>
+
+      <p>
+        The following code facilitates the execution of an independent-samples t-test. In R, a formula typically comprises a single variable on the left, denoted by a <c>~</c> (tilde), followed by one or more predictors on the right, which help predict the variable on the left. In statistical tests, the variable on the left of the formula represents the dependent variable (e.g., antisocial attitudes), while those on the right represent the independent variables (e.g., CBT program participation).
+      </p>
+
+      <program language="r">
+        <input>
+twosampt &lt;- t.test(formula = CBT_dataset_independent$AntiSocial ~
+                   CBT_dataset_independent$Group)
+twosampt
+        </input>
+      </program>
+
+      <p>
+        The output should generate results from Welch's t-test. Welch's t-test differs slightly from the traditional t-test formula, primarily used when the data deviates from the assumption of equal variances. The <c>t.test()</c> output shows a t-statistic of 4.859. This t-value is well above a t-value of 1.96, which is the historical cut-off point for significance at the 95% confidence level.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-ind-step3">
+      <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming No Relationship Exists</title>
+
+      <p>
+        The p-value in this output was shown in scientific notation as <c>4.485e-06</c>. You may be confused because you do not know how to convert this number. Here is the way to convert a p-value to a regular numeric format.
+      </p>
+
+      <program language="r">
+        <input>
+# Your p-value in scientific notation
+p_value &lt;- 4.485e-06
+# Convert p-value to regular numeric format
+formatted_p_value &lt;- format(p_value, scientific = FALSE)
+# Print the p-value
+formatted_p_value
+        </input>
+      </program>
+
+      <p>
+        Now you know that the probability of obtaining a t-statistic of 4.859 is 0.000004485 if the null hypothesis is true, which is substantially smaller than .05, the conventionally used standard. R produces a regular numeric p-value, but when the p-value is very low, it may display scientific notation.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-ind-steps45">
+      <title>Steps 4 and 5: Reject or Retain the Null Hypothesis</title>
+
+      <p>
+        The t-statistic fell within the rejection region. The probability of this sample coming from a population where the mean antisocial attitudes for both CBT participants and non-participants are equal is exceedingly low. Therefore, it is probable that the sample is from a population where CBT participants and non-participants exhibit statistically significant different mean antisocial attitudes.
+      </p>
+    </subsection>
+  </section>
+
+  <section xml:id="sec-ind-reporting">
+    <title>Reporting the Results of an Independent-Samples T-Test</title>
+
+    <p>
+      The results from our independent-samples t-test can be presented as follows:
+    </p>
+
+    <p>
+      An independent-sample t-test was conducted to compare the antisocial attitudes scores for CBT participants and non-participants. There was a significant difference in scores for participants (<m>M = 46.46</m>) and non-participants (<m>M = 55.39</m>; <m>t(97.924) = 4.86</m>, <m>p &lt; .05</m>, two-tailed).
+    </p>
+
+    <p>
+      If you want to see how t-test results are reported in an academic peer-reviewed journal, please see Choi et al. (2020). My colleagues and I compared levels of fear of crime between women and men using independent-samples t-tests.
+    </p>
+  </section>
+
+  <section xml:id="sec-density-plot">
+    <title>Density Plot</title>
+
+    <p>
+      You may wonder if there is a way to visualize the difference in antisocial attitudes between CBT participants and non-participants. A density plot is a useful tool that graphically represents a distribution of scores or values that take the form of a smooth curve. You can create a density plot using <c>ggplot2</c> and <c>tidyverse</c> to visualize the distribution of antisocial attitudes between two groups (CBT participants and non-participants) from the dataset <c>CBT_dataset_independent</c>.
+    </p>
+
+    <program language="r">
+      <input>
+library(ggplot2)
+library(tidyverse)
+dens_cbt &lt;- CBT_dataset_independent %&gt;%
+    ggplot(aes(x = AntiSocial,
+               fill = Group)) +
+    geom_density(alpha = .7) +
+    theme_minimal() +
+    labs(x = "Antisocial Attitudes", y = "Probability Density") +
+    scale_fill_manual(values = c('gray', 'black'),
+                      name = "Group")
+dens_cbt
+      </input>
+    </program>
+
+    <p>
+      <ul>
+        <li><p><c>library(ggplot2)</c> loads the <c>ggplot2</c> package, which is used for creating data visualizations in R.</p></li>
+        <li><p><c>library(tidyverse)</c> loads the <c>tidyverse</c> package, a collection of R packages including <c>ggplot2</c> for data manipulation and visualization.</p></li>
+        <li><p><c>dens_cbt &lt;- CBT_dataset_independent %&gt;%</c> creates a ggplot object called <c>dens_cbt</c>. It uses the pipe operator <c>%&gt;%</c> to pass the <c>CBT_dataset_independent</c> data frame into the subsequent ggplot code.</p></li>
+        <li><p><c>ggplot(aes(x = AntiSocial, fill = Group))</c> begins the ggplot object and specifies the aesthetics (<c>aes</c>) mapping. It sets the x-axis to the <c>AntiSocial</c> variable and the fill color to the <c>Group</c> variable.</p></li>
+        <li><p><c>geom_density(alpha = .7)</c> adds a density layer to the plot, displaying the distribution of antisocial attitudes for each group. The <c>alpha</c> parameter controls the transparency of the density curves.</p></li>
+        <li><p><c>theme_minimal()</c> sets the plot theme to minimal, which removes gridlines and background elements for a cleaner appearance.</p></li>
+        <li><p><c>labs(x = "Antisocial Attitudes", y = "Probability Density")</c> sets the x-axis and y-axis labels.</p></li>
+        <li><p><c>scale_fill_manual(values = c('gray', 'black'), name = "Group")</c> manually sets the fill colors for the groups and provides a legend title.</p></li>
+        <li><p><c>dens_cbt</c> displays the density plot.</p></li>
+      </ul>
+    </p>
+
+    <p>
+      You can also conduct an independent-samples t-test with directionality in R. Specifically, if we were curious about whether CBT participants have lower levels of antisocial attitudes compared to non-participants, you can perform this in R as well. When you specify the alternative hypothesis's direction, it is called a one-tailed test. This is beyond the scope of this book, so we will move on to the next item in this chapter: paired-samples t-test.
+    </p>
+  </section>
+
+  <section xml:id="sec-paired-ttest">
+    <title>Paired-Samples T-Test</title>
+
+    <p>
+      I mentioned that there is another way to evaluate whether a CBT program impacts participants: to compare antisocial attitudes before and after completing a CBT program. However, it should be noted that randomized experiments such as our example above are considered better than pre- and post-test experimental designs. This is because random assignment can ensure that potential confounding variables are evenly distributed between the treatment and control groups. On the other hand, pre- and post-test experimental designs using the same group of people may not control for all these possible confounding variables, such as time-related effects. Additionally, the participants may be systematically different at baseline when designing pre- and post-test experiments.
+    </p>
+
+    <p>
+      Let's first download the data from <url href="https://drive.google.com/file/d/1TaLxwt0FACMX6hyIKyVWXdjSQiRbrgai/view?usp=drive_link" visual="the shared Google Drive folder">the shared Google Drive folder</url> containing the <c>CBT_dataset_paired.csv</c> data. In this fictitious data, 100 high-risk inmates completed a CBT program, and their survey responses to antisocial attitudes before and after the program were recorded in this dataset. <c>Pre_CBT_Antisocial</c> represents antisocial attitudes before a CBT program, whereas <c>Post_CBT_Antisocial</c> reflects antisocial attitudes after a CBT program. Let's load the data as we did in the earlier section.
+    </p>
+
+    <program language="r">
+      <input>
+library(readr)
+CBT_dataset_paired &lt;- read_csv("CBT_dataset_paired.csv")
+View(CBT_dataset_paired)
+      </input>
+    </program>
+  </section>
+
+  <section xml:id="sec-nhst-paired-ttest">
+    <title>NHST Steps for Paired-Samples T-Test</title>
+
+    <subsection xml:id="subsec-paired-step1">
+      <title>Step 1: Formulate the Null and Alternative Hypotheses</title>
+
+      <p>
+        <ul>
+          <li><p><m>H_0</m>: There is no difference in antisocial attitudes between the pre-CBT and post-CBT assessments.</p></li>
+          <li><p><m>H_A</m>: There is a difference in antisocial attitudes between the pre-CBT and post-CBT assessments.</p></li>
+        </ul>
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-paired-step2">
+      <title>Step 2: Calculate the Test Statistic</title>
+
+      <p>
+        We will use the <c>t.test()</c> function but we will use the <c>paired = TRUE</c> argument to conduct a paired t-test.
+      </p>
+
+      <program language="r">
+        <input>
+pairedsampt &lt;- t.test(x = CBT_dataset_paired$Pre_CBT_Antisocial,
+                      y = CBT_dataset_paired$Post_CBT_Antisocial,
+                      paired = TRUE)
+pairedsampt
+        </input>
+      </program>
+
+      <p>
+        The <c>t.test()</c> output shows a t-statistic of 5.4437.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-paired-step3">
+      <title>Step 3: Determine the Probability (P-Value) of Obtaining a Test Statistic at Least as Extreme as the Observed Value, Assuming No Relationship Exists</title>
+
+      <p>
+        The p-value was initially displayed in scientific notation as <c>3.796e-07</c>. To convert it to a standard numeric format, we will apply the same method used above. The resulting p-value is 0.0000003796, indicating a very low probability of detecting a mean difference of 5.245796 in antisocial attitudes between the pre-CBT and post-CBT assessments.
+      </p>
+    </subsection>
+
+    <subsection xml:id="subsec-paired-steps45">
+      <title>Steps 4 and 5: Reject or Retain the Null Hypothesis</title>
+
+      <p>
+        The t-statistic fell within the rejection region. The probability of this sample coming from a population where the mean antisocial attitudes for pre-CBT and post-CBT assessments are equal is exceedingly low. Therefore, it is probable that the sample is from a population where pre-CBT and post-CBT assessments exhibit different mean antisocial attitudes.
+      </p>
+    </subsection>
+  </section>
+
+  <section xml:id="sec-paired-reporting">
+    <title>Reporting the Results of a Paired-Samples T-Test</title>
+
+    <p>
+      Since the results do not show mean scores of antisocial attitudes for pre-CBT and post-CBT assessments, you may want to produce these statistics before reporting the results of a paired-samples t-test.
+    </p>
+
+    <program language="r">
+      <input>
+CBT_dataset_paired %&gt;%
+    summarize(m_Pre_CBT_Antisocial = mean(x = Pre_CBT_Antisocial),
+              m_Post_CBT_Antisocial = mean(x = Post_CBT_Antisocial),
+              sd_Pre_Antisocial = sd(x = Pre_CBT_Antisocial),
+              sd_Post_Antisocial = sd(x = Post_CBT_Antisocial))
+      </input>
+    </program>
+
+    <p>
+      Now you have mean scores and standard deviation values of antisocial attitudes for pre-CBT and post-CBT assessments.
+    </p>
+
+    <p>
+      The results from our paired-samples t-test can be presented as follows:
+    </p>
+
+    <p>
+      A paired-sample t-test was conducted to compare the antisocial attitudes scores for pre-CBT and post-CBT assessments. There was a significant difference in antisocial attitudes for pre-CBT (<m>M = 49.50</m>) and post-CBT assessments (<m>M = 44.25</m>; <m>t(99) = 5.44</m>, <m>p &lt; .05</m>, two-tailed).
+    </p>
+
+    <p>
+      If you want to see how t-test results are reported in an academic peer-reviewed journal, please see Choi (2020). In this paper, I used a paired-samples t-test to see changes in perceptions of the police among participants before and after watching videos related to the police.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch07-conclusion">
+    <title>Conclusion</title>
+
+    <p>
+      We have covered two types of t-tests: the independent-samples t-test for comparing the means of two unrelated groups and the paired-samples t-test for comparing the means of two related groups. In the next chapter, we will delve into analysis of variance (ANOVA), which becomes handy when comparing mean scores across more than two groups. Additionally, you will learn about post hoc tests in ANOVA, which help identify statistically significant differences among multiple means.
+    </p>
+  </section>
+
+  <section xml:id="sec-ch07-references">
+    <title>References</title>
+
+    <p>
+      Choi, J. (2020). Asymmetry in media effects on perceptions of police: An analysis using a within-subjects design experiment. <em>Police Practice and Research</em>, 1<ndash />17. <url href="https://doi.org/10.1080/15614263.2020.1749624" visual="https://doi.org/10.1080/15614263.2020.1749624">https://doi.org/10.1080/15614263.2020.1749624</url>
+    </p>
+
+    <p>
+      Choi, J., Yim, H., &amp; Lee, D. R. (2020). An examination of the shadow of sexual assault hypothesis among men and women in South Korea. <em>International Criminal Justice Review</em>, <em>30</em>(4), 386<ndash />405.
+    </p>
+
+    <p>
+      Farrington, D. P., &amp; McGee, T. R. (2017). The integrated cognitive antisocial potential (ICAP) theory: Empirical testing. In A. A. J. Blokland &amp; V. R. Van Der Geest (Eds.), <em>Routledge international handbook of life-course criminology</em> (pp. 11<ndash />28). Routledge.
+    </p>
+
+    <p>
+      Landenberger, N. A., &amp; Lipsey, M. W. (2005). The positive effects of cognitive-behavioral programs for offenders: A meta-analysis of factors associated with effective treatment. <em>Journal of Experimental Criminology</em>, <em>1</em>(4), 451<ndash />476.
+    </p>
+
+    <p>
+      Lipsey, M. W., Landenberger, N. A., &amp; Wilson, S. J. (2007). Effects of cognitive-behavioral programs for criminal offenders. <em>Campbell Systematic Reviews</em>, <em>6</em>(1), 1<ndash />27.
+    </p>
+
+    <p>
+      Vaske, J., Galyean, K., &amp; Cullen, F. T. (2011). Toward a biosocial theory of offender rehabilitation: Why does cognitive-behavioral therapy work? <em>Journal of Criminal Justice</em>, <em>39</em>(1), 90<ndash />102.
+    </p>
+
+    <p>
+      Zara, G. (2019). Cognitive-behavioral treatment to prevent offending and to rehabilitate offenders. In D. P. Farrington, L. Kazemian, &amp; A. R. Piquero (Eds.), <em>The Oxford handbook of developmental and life-course criminology</em> (pp. 694<ndash />725). Oxford University Press.
+    </p>
+  </section>
 
 </chapter>
