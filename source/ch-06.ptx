@@ -144,9 +144,8 @@ chisq.test(x = rNCVS2016$Male, y = rNCVS2016$PayCred)
     <p>
       In this chapter, we conducted first hypothesis testing using a chi-squared test. In the next chapter, we will use a different statistical test called t-test to compare different groups.
     </p>
-  </section>
 
-  <section xml:id="sec-ch06-references">
+  <subsection xml:id="sec-ch06-references">
     <title>References</title>
 
     <p>
@@ -156,6 +155,8 @@ chisq.test(x = rNCVS2016$Male, y = rNCVS2016$PayCred)
     <p>
       Vogt, W. P., &amp; Johnson, R. B. (2011). <em>Dictionary of statistics &amp; methodology: A nontechnical guide for the social sciences</em> (4th ed.). Sage.
     </p>
+  </subsection>
   </section>
+
 
 </chapter>
