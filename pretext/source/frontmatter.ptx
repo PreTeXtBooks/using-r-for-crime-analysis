@@ -143,4 +143,28 @@
       <url href="https://github.com/PreTeXtBooks/using-r-for-crime-analysis">GitHub</url>.
     </p>
   </preface>
+
+  <preface xml:id="preface-ptx-version">
+    <title>Note on This PreTeXt Edition</title>
+    <p>
+      This is a <url href="https://pretextbook.org/" visual="pretextbook.org">PreTeXt</url>
+      conversion of <em>Basic Statistics Using R for Crime Analysis</em>, originally written by
+      Jaeyong Choi.
+      The original work is available at <url href="https://open.umn.edu/opentextbooks/textbooks/basic-statistics-using-r-for-crime-analysis">open.umn.edu/opentextbooks/textbooks/basic-statistics-using-r-for-crime-analysis</url>.
+    </p>
+    <p>
+      This PreTeXt edition was prepared by
+      <url href="https://github.com/PreTeXtBooks/using-r-for-crime-analysis">the PreTeXtBooks project</url>
+      to make the content available in the PreTeXt format, enabling accessible and structured
+      output in HTML, PDF, and other formats. All prose, code examples, figures, and mathematical content are intended to be 
+      faithful reproductions of the original work, though occasional typographical errors 
+      may have been introduced in the conversion process. Report any issues to our
+      <url href="https://github.com/PreTeXtBooks/using-r-for-crime-analysis/issues">GitHub Issues Page.</url>
+    </p>
+    <p>
+      The original work is licensed under a
+      <url href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+      Attribution-Share-Alike License</url>.
+    </p>
+  </preface>
 </frontmatter>
